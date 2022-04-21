@@ -29,7 +29,7 @@ if (!class_exists('Connect_SGBD')) {
             $this->error_code = 0;
             $this->error_message = "";
             $configIni = new ConfigIni();
-            if($this->error_code == 0) {
+            if($configIni->getError_code() == 0) {
                 parent::__construct($configIni->getType(), $configIni->getServer(), 
                 $configIni->getName(), $configIni->getUser(), 
                 $configIni->getPass(), $configIni->getPort());

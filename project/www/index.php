@@ -1,8 +1,19 @@
 <?php
-include_once 'src/class/Connect_SGBD.php';
 
-$sgbd = new Connect_SGBD();
-$sgbd->connect();
+include_once 'src/class/Plats.php';
+include_once 'src/class/Message.php';
+
+$sgbd_plats = new Plats();
+$sgbd_message = new Message();
+
+$message = "";
+
+if(!empty($_POST)) {
+
+  $sgbd_message->add_message($_POST['name'], $_POST['first_name'], $_POST['mail'], $_POST['user_text']);
+  $message = $sgbd_message->information();
+
+}
 
 ?>
 
@@ -61,6 +72,10 @@ $sgbd->connect();
 
     <!-- contient la presentation -->
     <section id="section_presentation">
+      
+      <noscript>
+        <p id="no_javascript">Javascript est désactivé dans votre navigateur web. Certaines fonctionnalités ne fonctionneront pas correctement.</p>
+      </noscript>
       <p id="presentation_rapide">UN VOYAGE CULINAIRE GOURMET ET GOURMAND.</p>
       <h1 class="section_title">
         Bienvenue<br />
@@ -86,48 +101,37 @@ $sgbd->connect();
       <h2>Les nouveautés Jadoo</h2>
       <div id="plats">
         <?php
-        $res = $sgbd->prepare("SELECT * FROM plats LEFT JOIN categories ON plats.Id_Categorie = categories.Id_Categorie".
-        " WHERE categorie='plats_chaud' LIMIT 3");
-        $res->execute();
-        $plats = $res->fetchAll();
+        $plats = $sgbd_plats->plats_chaud();
         $i = 0;
         foreach ($plats as $plat) {
-          $i++;
-          $image_filet = "plat_no_img_filet";
-          if($i == 3) {
-            $image_filet = "plat_img_filet";
-          }
-        ?>
-        <figure class="<?php echo $image_filet ?>" id="plat_<?php echo $i ?>">
-          <article class="plat">
-            <h6>plat</h6>
-            <img
-              src="src/imgs/<?php echo $plat['Image'] ?>"
-              alt="Image <?php echo utf8_encode($plat['Nom']) ?>"
-            />
-            <p class="plat_text">
-            <?php echo utf8_encode($plat['Description']) ?>
-            </p>
-          </article>
-        </figure>
-        <?php
+            $i++;
+            $image_filet = "plat_no_img_filet";
+            if($i == 3) {
+              $image_filet = "plat_img_filet";
+            }
+          ?>
+          <figure class="<?php echo $image_filet ?>" id="plat_<?php echo $i ?>">
+            <article class="plat">
+              <h6>plat</h6>
+              <img
+                src="src/imgs/<?php echo $plat['Image'] ?>"
+                alt="Image <?php echo utf8_encode($plat['Nom']) ?>"
+              />
+              <p class="plat_text">
+              <?php echo utf8_encode($plat['Description']) ?>
+              </p>
+            </article>
+          </figure>
+          <?php
         }
         ?>
       </div>
 
       <div id="makis">
       <?php
-        $res = $sgbd->prepare("SELECT * FROM plats LEFT JOIN categories ON plats.Id_Categorie = categories.Id_Categorie".
-        " WHERE categorie='makis' LIMIT 4");
-        $res->execute();
-        $plats = $res->fetchAll();
+        $plats = $sgbd_plats->makis();
         $i = 0;
         foreach ($plats as $plat) {
-          $i++;
-          $image_filet = "plat_no_img_filet";
-          if($i == 3) {
-            $image_filet = "plat_img_filet";
-          }
         ?>
         <figure class="maki_figure">
           <img
@@ -279,22 +283,23 @@ $sgbd->connect();
       </h5>
       <br />
       <figure id="form_contact">
-        <form>
+        <form id="form_inform" action="./index.php#section_contact" method="post">
           <p id="form_title">Formulaire de contact</p>
+          <p><?php echo $message ?></p>
           <p>
             Remplissez le formulaire ci-dessous<br />
             pour nous contacter
           </p>
           <div class="user_name">
             <label>Nom</label>
-            <input type="text" id="name" name="user_name" placeholder="Nom" />
+            <input type="text" id="name" name="name" placeholder="Nom" />
           </div>
           <div class="user_name" id="name_2">
             <label>Prénom</label>
             <input
               type="text"
               id="first_name"
-              name="user_first_name"
+              name="first_name"
               placeholder="Prénom"
             />
           </div>
@@ -302,7 +307,7 @@ $sgbd->connect();
           <input
             type="email"
             id="mail"
-            name="user_mail"
+            name="mail"
             placeholder="monAdresseMail@gmail.com"
           />
           <label>Message</label>
@@ -312,15 +317,12 @@ $sgbd->connect();
             placeholder="Votre message/demande de réservation"
           ></textarea>
           <div class="text_center">
-              <div
-                id="button_form"
-                class="button_bleu"
-              >
-                <img
-                  src="src/imgs/bouton_formulaire_coche.svg"
-                  alt="image pour cocher le formulaire"
-                />&nbsp;&nbsp;Envoyer
-              </div>
+                <div id="button_form" class="button_bleu" type="sumit">
+                  <img
+                    src="src/imgs/bouton_formulaire_coche.svg"
+                    alt="image pour cocher le formulaire"
+                  />&nbsp;&nbsp;Envoyer
+      </div>
           </div>
         </form>
 

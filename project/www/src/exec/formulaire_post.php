@@ -1,22 +1,17 @@
 <?php 
 
-include_once '../class/Connect_SGBD.php';
+include_once 'src/class/Message.php';
 
-$sgbd = new Connect_SGBD();
-$sgbd->connect();
+$sgbd_message = new Message();
 
 if(!empty($_POST)) {
 
-    $res = $sgbd->prepare("INSERT INTO messages(Nom, Prenom, Email, Message) VALUES ".
-    "(:Nom,:Prenom,:Email,:Message)");
-    $res->execute([
-        ":Nom" => trim(stripslashes(strip_tags($_POST['name']))),
-        ":Prenom" => trim(stripslashes(strip_tags($_POST['first_name']))),
-        ":Email" => trim(stripslashes(strip_tags($_POST['mail']))),
-        ":Message" => trim(stripslashes(strip_tags($_POST['user_text']))),
-    ]);
-    
-    echo "le message a été envoyé.";
+    if($sgbd_message->add_message($_POST['name'], $_POST['first_name'], $_POST['mail'], $_POST['user_text'])) {
+        echo "1";
+    } else {
+        echo $sgbd_message->information();
+    }
+
 } else {
     echo "Vous ne pouvez pas utiliser cette page.";
 }

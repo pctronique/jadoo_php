@@ -765,7 +765,32 @@ form label {
 }
 
 #button_form {
-  margin-top: 70px;
+  margin-top: 24px;
+  cursor: pointer;
+}
+
+#message_envoye_img {
+  width: 100%;
+  border-radius: 10px;
+  margin-left: 34px;
+}
+
+#message_envoye_p {
+  margin-left: -321px;
+    margin-right: 73px;
+    width: 25%;
+    color: black !important;
+    font-size: 20px !important;
+}
+
+#no_javascript {
+  font-size : 15px;
+  color: red;
+  padding: 10px;
+  background-color: white;
+  border-radius: 15px;
+  font-weight: bold;
+  text-align: center;
 }
 
 /*----------*/

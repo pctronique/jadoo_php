@@ -163,7 +163,7 @@ if (!class_exists('PDO_main')) {
                     $this->error_number = 2801000001;
                 }
             } catch (PDOException $e) {
-                $this->error_text = $e->getMessage();
+                $this->error_text = $e;
                 $this->error_number = 2801000002;
             }
         }
