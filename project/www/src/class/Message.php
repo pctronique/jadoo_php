@@ -53,10 +53,10 @@ if (!class_exists('Message')) {
                         $res = $this->sgbd->prepare("INSERT INTO messages(Nom, Prenom, Email, Message) VALUES ".
                         "(:Nom,:Prenom,:Email,:Message)");
                         $res->execute([
-                            ":Nom" => trim(stripslashes(strip_tags($Nom))),
-                            ":Prenom" => trim(stripslashes(strip_tags($Prenom))),
-                            ":Email" => trim(stripslashes(strip_tags($Email))),
-                            ":Message" => trim(stripslashes(strip_tags($Message))),
+                            ":Nom" => htmlspecialchars(stripslashes(trim($Nom))),
+                            ":Prenom" => htmlspecialchars(stripslashes(trim($Prenom))),
+                            ":Email" => htmlspecialchars(stripslashes(trim($Email))),
+                            ":Message" => htmlspecialchars(stripslashes(trim($Message))),
                         ]);
                         $this->info = "Le message a été transmis, nous vous répondrons dans les plus brefs délais.";
                         return true;
