@@ -1,18 +1,63 @@
 <?php
 
-include_once 'src/class/Plats.php';
-include_once 'src/class/Message.php';
+include_once dirname(__FILE__) . '/src/class/Plats.php';
+include_once dirname(__FILE__) . '/src/class/Message.php';
 
 $sgbd_plats = new Plats();
 $sgbd_message = new Message();
 
+$classmsg = "msg_valide";
+
 $message = "";
+$error_sgbd = "Une erreur s'est produite lors du téléchargement de la page, désolé pour ce désagrément.";
+
+$form_name = "";
+$form_prenom = "";
+$form_email = "";
+$form_msg = "";
 
 if(!empty($_POST)) {
 
-  $sgbd_message->add_message($_POST['name'], $_POST['first_name'], $_POST['mail'], $_POST['user_text']);
-  $message = $sgbd_message->information();
+  $valide = $sgbd_message->add_message($_POST['name'], $_POST['first_name'], $_POST['mail'], $_POST['user_text']);
+  if($sgbd_message->error_number() == 0) {
+    if(!$valide) {
+      $classmsg = "msg_error";
+    }
+    $message = $sgbd_message->information();
+  } else {
+    $classmsg = "msg_error";
+    $message = $error_sgbd;
+  }
 
+  $data_post = ['name' => $_POST['name'], 'first_name' => $_POST['first_name'], 'mail' => $_POST['mail'], 'user_text' => $_POST['user_text']];
+
+  $message_display = [$classmsg, $message, $data_post];
+
+  $json = json_encode($message_display);
+
+  $fp = fopen("/tmp/myfile_message.json", 'w+');
+  fwrite($fp, json_encode($message_display));
+  fclose($fp);
+
+  header('Location: ./../../index.php#section_contact');
+  exit();
+}
+
+if(empty($_POST) && file_exists("/tmp/myfile_message.json")) {
+  // mettre le contenu du fichier dans une variable
+  $data = file_get_contents("/tmp/myfile_message.json"); 
+  // décoder le flux JSON
+  $obj = json_decode($data);
+  $classmsg = $obj[0];
+  $message = $obj[1];
+  if($classmsg == "msg_error") {
+    $data_post = $obj[2];
+    $form_name = $data_post->name;
+    $form_prenom = $data_post->first_name;
+    $form_email = $data_post->mail;
+    $form_msg = $data_post->user_text;
+  }
+  unlink("/tmp/myfile_message.json");
 }
 
 ?>
@@ -102,27 +147,31 @@ if(!empty($_POST)) {
       <div id="plats">
         <?php
         $plats = $sgbd_plats->plats_chaud();
-        $i = 0;
-        foreach ($plats as $plat) {
-            $i++;
-            $image_filet = "plat_no_img_filet";
-            if($i == 3) {
-              $image_filet = "plat_img_filet";
-            }
-          ?>
-          <figure class="<?php echo $image_filet ?>" id="plat_<?php echo $i ?>">
-            <article class="plat">
-              <h6>plat</h6>
-              <img
-                src="src/imgs/<?php echo $plat['Image'] ?>"
-                alt="Image <?php echo utf8_encode($plat['Nom']) ?>"
-              />
-              <p class="plat_text">
-              <?php echo utf8_encode($plat['Description']) ?>
-              </p>
-            </article>
-          </figure>
-          <?php
+        if($sgbd_plats->error_number() == 0) {
+          $i = 0;
+          foreach ($plats as $plat) {
+              $i++;
+              $image_filet = "plat_no_img_filet";
+              if($i == 3) {
+                $image_filet = "plat_img_filet";
+              }
+            ?>
+            <figure class="<?php echo $image_filet ?>" id="plat_<?php echo $i ?>">
+              <article class="plat">
+                <h6>plat</h6>
+                <img
+                  src="src/imgs/<?php echo $plat['Image'] ?>"
+                  alt="Image <?php echo utf8_encode($plat['Nom']) ?>"
+                />
+                <p class="plat_text">
+                <?php echo utf8_encode($plat['Description']) ?>
+                </p>
+              </article>
+            </figure>
+            <?php
+          }
+        } else {
+            echo "<p class=\"error_sgbd\">".$error_sgbd."</>";
         }
         ?>
       </div>
@@ -130,29 +179,33 @@ if(!empty($_POST)) {
       <div id="makis">
       <?php
         $plats = $sgbd_plats->makis();
+        if($sgbd_plats->error_number() == 0) {
         $i = 0;
         foreach ($plats as $plat) {
-        ?>
-        <figure class="maki_figure">
-          <img
-            class="decoration_rose"
-            src="src/imgs/decoration_rose.svg"
-            alt="décoration d'une animation d'un carré rose"
-          />
-          <article class="maki">
-            <h6>maki</h6>
+          ?>
+          <figure class="maki_figure">
             <img
-              src="src/imgs/<?php echo $plat['Image'] ?>"
-              alt="Image <?php echo utf8_encode($plat['Nom']) ?>"
+              class="decoration_rose"
+              src="src/imgs/decoration_rose.svg"
+              alt="décoration d'une animation d'un carré rose"
             />
-            <p>
-              <span class="maki_title"><?php echo utf8_encode($plat['Nom']) ?></span><br />
+            <article class="maki">
+              <h6>maki</h6>
+              <img
+                src="src/imgs/<?php echo $plat['Image'] ?>"
+                alt="Image <?php echo utf8_encode($plat['Nom']) ?>"
+              />
+              <p>
+                <span class="maki_title"><?php echo utf8_encode($plat['Nom']) ?></span><br />
 
-              <span class="maki_text"><?php echo utf8_encode($plat['Description']) ?></span>
-            </p>
-          </article>
-        </figure>
-        <?php
+                <span class="maki_text"><?php echo utf8_encode($plat['Description']) ?></span>
+              </p>
+            </article>
+          </figure>
+          <?php
+          }
+        } else {
+          echo "<p class=\"error_sgbd\">".$error_sgbd."</>";
         }
         ?>
       </div>
@@ -285,14 +338,14 @@ if(!empty($_POST)) {
       <figure id="form_contact">
         <form id="form_inform" action="./index.php#section_contact" method="post">
           <p id="form_title">Formulaire de contact</p>
-          <p><?php echo $message ?></p>
+          <p class="<?php echo $classmsg; ?>"><?php echo $message ?></p>
           <p>
             Remplissez le formulaire ci-dessous<br />
             pour nous contacter
           </p>
           <div class="user_name">
             <label>Nom</label>
-            <input type="text" id="name" name="name" placeholder="Nom" />
+            <input type="text" id="name" name="name" pattern="[A-Za-z '-]{3,}" placeholder="Nom" value="<?php echo $form_name ?>" required />
           </div>
           <div class="user_name" id="name_2">
             <label>Prénom</label>
@@ -301,6 +354,9 @@ if(!empty($_POST)) {
               id="first_name"
               name="first_name"
               placeholder="Prénom"
+              pattern="[A-Za-z '-]{3,}"
+              value="<?php echo $form_prenom ?>"
+              required
             />
           </div>
           <label>Adresse e-mail</label>
@@ -309,20 +365,25 @@ if(!empty($_POST)) {
             id="mail"
             name="mail"
             placeholder="monAdresseMail@gmail.com"
+            pattern="[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)"
+            value="<?php echo $form_email ?>"
+            required
           />
           <label>Message</label>
           <textarea
             id="user_text"
             name="user_text"
+            pattern=".{8,}"
             placeholder="Votre message/demande de réservation"
-          ></textarea>
-          <div class="text_center">
-                <div id="button_form" class="button_bleu" type="sumit">
+            required
+          ><?php echo $form_msg ?></textarea>
+            <div class="text_center">
+                <button id="button_form" class="button_bleu" type="sumit">
                   <img
                     src="src/imgs/bouton_formulaire_coche.svg"
                     alt="image pour cocher le formulaire"
                   />&nbsp;&nbsp;Envoyer
-      </div>
+      </button>
           </div>
         </form>
 

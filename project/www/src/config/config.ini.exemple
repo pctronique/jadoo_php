@@ -1,5 +1,5 @@
 [SGBD]
-type = ""
+type = "mysql"
 server = ""
 port = "0"
 name = ""

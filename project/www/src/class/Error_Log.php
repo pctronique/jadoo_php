@@ -1,7 +1,9 @@
 <?php
 if (!class_exists('Error_Log')) {
 
-    include_once dirname(__FILE__) . '/../config/config.php';
+    if(file_exists(dirname(__FILE__) . '/../config/config.php')) {
+        include_once dirname(__FILE__) . '/../config/config.php';
+    }
 
     class Error_Log {
 
@@ -9,7 +11,10 @@ if (!class_exists('Error_Log')) {
         private $error_log;
 
         public function __construct() {
-            $this->logFile = LOG_FILE;
+            $this->logFile = dirname(__FILE__)."/../../errors.log";
+            if(defined("LOG_FILE")) {
+                $this->logFile = LOG_FILE;
+            }
         }
 
         public function addError(int $codeError, ?string $class, ?string $message): void {

@@ -16,6 +16,25 @@ h6 {
   display: none;
 }
 
+.error_sgbd {
+  font-weight: bold;
+  font-size: 32px;
+  padding: 20px;
+  background-color: bisque;
+  border: red 1px solid;
+  border-radius: 10px;
+}
+
+.msg_valide {
+  color: rgb(11, 95, 0) !important;
+  font-weight: bold;
+}
+
+.msg_error {
+  color: red !important;
+  font-weight: bold;
+}
+
 /***********************/
 /** css all component **/
 /***********************/

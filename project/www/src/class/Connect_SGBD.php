@@ -34,7 +34,7 @@ if (!class_exists('Connect_SGBD')) {
                 $configIni->getName(), $configIni->getUser(), 
                 $configIni->getPass(), $configIni->getPort());
             } else {
-                addError($configIni->getError_code(), $configIni->getError_message());
+                parent::addError($configIni->getError_code(), $configIni->getError_message());
             }
         }
 
