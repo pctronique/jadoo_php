@@ -1,0 +1,139 @@
+#modification {
+    margin-top: 29px;
+    border-top-left-radius: unset;
+    border-top-right-radius: unset;
+}
+
+#modification .tabbled img {
+    width: 25px;
+}
+
+.add_contenu {
+    margin-top: 25px;
+    width: 25px;
+}
+
+/* tabbled */
+.tabbled {
+    width: 85%;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px;
+}
+
+.tabbled ul {
+    padding: 0px;
+    margin-left: 18px;
+    margin-bottom: 5px;
+    list-style: none;
+}
+
+.tabbled ul li {
+    display: inline;
+}
+
+.tabbled [type="radio"] {
+    display: none;
+}
+
+.tabbled ul li .onglet_default {
+    background-color: #e2e2e2;
+    padding: 10px;
+    border: #8a8a8a 1px solid;
+    color: #8b8b8b;
+    border-bottom: unset;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-left: 0px;
+}
+
+.tabbled form {
+    display: grid;
+    grid-template-columns: auto auto;
+    background-color: #ebebeb;
+    padding: 20px;
+    border: #8a8a8a 1px solid;
+    border-radius: 10px;
+}
+
+#form_1, #form_2, #form_3, #form_4 {
+    display: none;
+    text-align: center;
+    box-shadow: 7px 8px 20px rgb(0 0 0 / 25%);
+    box-sizing: border-box;
+    overflow: hidden;
+    height: 88vh;
+}
+
+.form_active input, .form_active textarea, .form_active select {
+    font-size: 17px;
+    padding: 8px;
+    border: none;
+    border: #8a8a8a 1px solid;
+    border-radius: 20px;
+    box-shadow: 7px 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+.form_active select {
+    background-color: white;
+    text-align: center;
+    margin-top: 10px;
+}
+  
+.form_active input:focus, .form_active textarea:focus, .form_active select:focus {
+      /*color: #0737b5;
+      border-color: #0737b5;*/
+      color: RGB(226, 43, 202);
+      border-color: RGB(226, 43, 202);
+      outline: none;
+}
+
+.form_active input:hover, .form_active textarea:hover, .form_active select:hover {
+    transform: scale(1.03);
+}
+
+.tabbled #tab0:checked ~ ul #onglet_1 .onglet_default {
+    background-color: #ebebeb;
+    color: black;
+    padding-bottom: 6px;
+}
+
+.tabbled #tab0:checked ~ #form_1 {
+    display: inline-block;
+    width: 100%;
+}
+
+.tabbled #tab1:checked ~ ul #onglet_2 .onglet_default {
+    background-color: #ebebeb;
+    color: black;
+    padding-bottom: 6px;
+}
+
+.tabbled #tab1:checked ~ #form_2 {
+    display: inline-block;
+    width: 100%;
+}
+
+.tabbled #tab2:checked ~ ul #onglet_3 .onglet_default {
+    background-color: #ebebeb;
+    color: black;
+    padding-bottom: 6px;
+}
+
+.tabbled #tab2:checked ~ #form_3 {
+    display: inline-block;
+    width: 100%;
+}
+
+.tabbled #tab3:checked ~ ul #onglet_4 .onglet_default {
+    background-color: #ebebeb;
+    color: black;
+    padding-bottom: 6px;
+}
+
+.tabbled #tab3:checked ~ #form_4 {
+    display: inline-block;
+    width: 100%;
+}

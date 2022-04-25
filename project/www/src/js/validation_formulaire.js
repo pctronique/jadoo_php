@@ -1,10 +1,11 @@
 function isValidName(myval) {
-    var validCharactersRegex = /^[A-Za-z '-]+$/;
+    let validCharactersRegex = /^[A-Za-z '-]{3,}$/;
  
     return (new RegExp(validCharactersRegex)).test(myval.trim());
 }
 
 function validation(e) {
+    e.preventDefault();
     let values = {
         name : document.getElementById('name').value,
         first_name : document.getElementById('first_name').value,
@@ -13,42 +14,45 @@ function validation(e) {
     };
     let regexEmailValide = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
     const regexEmail = new RegExp(regexEmailValide);
+
+    let regexTextValide = /^.{8,}$/;
+    const regexText = new RegExp(regexTextValide);
     
-    if(values.name == "" || !isValidName(values.name)) {
+    if(!isValidName(values.name)) {
         document.getElementById("name").style.borderBottomColor = "red";
     }
-    if(values.first_name == "" || !isValidName(values.first_name)) {
+    if(!isValidName(values.first_name)) {
         document.getElementById("first_name").style.borderBottomColor = "red";
     }
-    if(values.mail == "" || !regexEmail.test(values.mail)) {
+    if(!regexEmail.test(values.mail)) {
         document.getElementById("mail").style.borderBottomColor = "red";
     }
-    if(values.user_text == "") {
+    if(!regexText.test(values.user_text)) {
         document.getElementById("user_text").style.borderBottomColor = "red";
     }
 
-    if(values.name == "" || !isValidName(values.name)) {
+    if(!isValidName(values.name)) {
         document.getElementById("name").focus();
         document.getElementById("name").select();
         alert("Merci d'entrer un nom.");
         return false;
-    } else if (values.first_name == "" || !isValidName(values.first_name)) {
+    } else if (!isValidName(values.first_name)) {
         document.getElementById("first_name").focus();
         document.getElementById("first_name").select();
         alert("Merci d'entrer un prénom.");
         return false;
-    } else if (values.mail == "" || !regexEmail.test(values.mail)) {
+    } else if (!regexEmail.test(values.mail)) {
         document.getElementById("mail").focus();
         document.getElementById("mail").select();
         alert("Merci d'entrer un email.");
         return false;
-    } else if (values.user_text == "") {
+    } else if (!regexText.test(values.user_text)) {
         document.getElementById("user_text").focus();
         document.getElementById("user_text").select();
-        alert("Merci d'entrer un texte.");
+        alert("Le message n'est pas valide.");
         return false;
     } else {
-        let post = new Post_Save('./src/exec/formulaire_post.php');
+        let post = new Post_Save('./?pg=msgpost');
         post.setData(values).then(function(response) {
             alert("Le message a été transmis, nous vous répondrons dans les plus brefs délais.");
             let inputs = document.getElementById('form_inform').querySelectorAll("input");
@@ -56,7 +60,6 @@ function validation(e) {
                 element.value = "";
             });
             document.getElementById('user_text').value = "";
-            location.href = "#section_plat";
         });
         return false;
     }
@@ -71,8 +74,6 @@ document.getElementById("name").addEventListener('input', styleInputForm);
 document.getElementById("first_name").addEventListener('input', styleInputForm);
 document.getElementById("mail").addEventListener('input', styleInputForm);
 document.getElementById("user_text").addEventListener('input', styleInputForm);
-
-//document.getElementById('button_form').disabled=true;
 
 document.getElementById('button_form').addEventListener('click', validation);
 

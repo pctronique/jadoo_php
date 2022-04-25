@@ -2,6 +2,7 @@
 /project/www/src/config/config.php
 /project/www/config/
 /project/www/tmp/
+/project/www/data/img_tmp_*
 /project/www/errors.log
 /projecttmp
 /.vscode

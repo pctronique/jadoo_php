@@ -74,7 +74,6 @@ if (!class_exists('ConfigIni')) {
         }
 
         public function crypt(?string $chaine):?string {
-            echo "001";
             return $this->sgbd_crypt->encrypt($chaine);
         }
 
