@@ -1,123 +1,159 @@
 <?php
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
 
 if (!class_exists('Message')) {
 
-    include_once dirname(__FILE__) . '/Connect_SGBD.php';
-    include_once dirname(__FILE__) . '/Error_Log.php';
-
+    /**
+     * Description of ConfigIni
+     *
+     * @author pctronique
+     */
     class Message {
 
-        private $sgbd;
-        private $error_log;
-        private $info;
-        private $error_text;
-        private $error_number;
+        private $id;
+        private $date;
+        private $Nom;
+        private $Prenom;
+        private $Email;
+        private $Message;
+        private $lu;
 
-        public function __construct() {
-            $this->error_text = "";
-            $this->error_number = 0;
-            $this->error_log = new Error_Log();
-            $this->sgbd = new Connect_SGBD();
-            $this->sgbd->connect();
-        }
-        
-        /**
-         * Message d'erreur
-         * 
-         * @return string|null Message d'erreur
-         */
-        public function error_text(): ?string {
-            return $this->error_text;
+        public function __construct($Nom, $Prenom, $Email, $Message) {
+            $this->Nom = $Nom;
+            $this->Prenom = $Prenom;
+            $this->Email = $Email;
+            $this->Message = $Message;
         }
 
-        /**
-         * Code erreur
-         * 
-         * @return int Code erreur
-         */
-        public function error_number(): int {
-            return $this->error_number;
-        }
+                /**
+                 * Get the value of id_user
+                 */
+                public function getId(): int {
+                        return $this->id;
+                }
 
-        public function information() {
-            return $this->info;
-        }
+                /**
+                 * Set the value of id_user
+                 */
+                public function setId(int $id): void {
+                        $this->id = $id;
+                }
 
-        public function all_messages():?array {
-            if($this->sgbd->error_number() == 0) {
-                try {
-                    $values = [];
-                    $res = $this->sgbd->prepare("SELECT * FROM messages ORDER BY id DESC");
-                    $res->execute();
-                    $data = $res->fetchAll(PDO::FETCH_OBJ);
-                    foreach ($data as $valueLine) {
-                        $data_line = [];
-                        foreach ($valueLine as $key => $value){
-                            if(strtolower(gettype($value)) == "string") {
-                                $data_line[$key] = utf8_encode($value);
-                            } else {
-                                $data_line[$key] = $value;
-                            }
+                /**
+                 * Set the value of id_user
+                 */
+                public function setIdSt(?string $id): void {
+                        $this->id = 0;
+                        if (is_numeric($id)) {
+                                $num = intval($id);
+                                if (is_int($num)) {
+                                        $this->id = intval($num);
+                                }
                         }
-                        array_push($values, $data_line);
-                    }
-                    return $values;
-                } catch (PDOException $exc) {
-                    $this->error_text = $exc;
-                    $this->error_number = 956710000;
-                    $this->error_log->addError(956710000, "plats_chaud", $exc);
-                    return array();
                 }
-            } else {
-                $this->error_text = $this->sgbd->error_text();
-                $this->error_number = $this->sgbd->error_number();
-                $this->error_log->addError($this->sgbd->error_number(), "plats_chaud", $this->sgbd->error_text());
-                return array();
-            }
-        }
-        
-        public function add_message(?string $Nom, ?string $Prenom, ?string $Email, ?string $Message): bool {
-            if($this->sgbd->error_number() == 0) {
-                $regexEmailValide = "/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/";
 
-                if(preg_match("/^[A-Za-z '-]{3,}$/",$Prenom) && preg_match("/^[A-Za-z '-]{3,}$/",$Nom) 
-                    && preg_match($regexEmailValide,$Email) && preg_match("/^.{8,}$/",$Message)) {
-                    try {
-                        $res = $this->sgbd->prepare("INSERT INTO messages(Nom, Prenom, Email, Message) VALUES ".
-                        "(:Nom,:Prenom,:Email,:Message)");
-                        $res->execute([
-                            ":Nom" => utf8_decode(htmlspecialchars(stripslashes(trim($Nom)))),
-                            ":Prenom" => utf8_decode(htmlspecialchars(stripslashes(trim($Prenom)))),
-                            ":Email" => utf8_decode(htmlspecialchars(stripslashes(trim($Email)))),
-                            ":Message" => utf8_decode(htmlspecialchars(stripslashes(trim($Message)))),
-                        ]);
-                        $this->info = "Le message a été transmis, nous vous répondrons dans les plus brefs délais.";
-                        return true;
-                    } catch (PDOException $exc) {
-                        $this->error_text = $exc;
-                        $this->error_number = 956710000;
-                        $this->error_log->addError(956710000, "plats_chaud", $exc);
-                    }
-                } else {
-                    if(!preg_match("/^[A-Za-z '-]{3,}$/",$Nom)) {
-                        $this->info = "Le nom n'est pas valide.";
-                    } else if(!preg_match("/^[A-Za-z '-]{3,}$/",$Prenom)) {
-                        $this->info = "Le prénom n'est pas valide.";
-                    } else if(!preg_match($regexEmailValide, $Email)) {
-                        $this->info = "L'email n'est pas valide.";
-                    } else if(!preg_match("/^.{8,}$/",$Message)) {
-                        $this->info = "Le message n'est pas valide.";
-                    } else {
-                        $this->info = "Les données ne sont pas valide.";
+                /**
+                 * Get the value of date
+                 */
+                public function getDate(): ?int {
+                        return $this->date;
+                }
+
+                /**
+                 * Set the value of date
+                 *
+                 * @return  self
+                 */
+                public function setDate(?DateTime $date):void {
+                        $this->date = $date->getTimestamp();
+                }
+
+                /**
+                 * Set the value of date
+                 *
+                 * @return  self
+                 */
+                public function setDateSt(?string $date):void {
+                        $this->date = strtotime($date);
+                }
+
+                /**
+                 * Set the value of date
+                 *
+                 * @return  self
+                 */
+                public function getDateSt(): ?string {
+                        return date('Y-M-d h:i:s', $this->date);
+                }
+
+
+                /**
+                 * Get the value of lu
+                 */ 
+                public function getLu():bool {
+                        return $this->lu;
+                }
+
+                /**
+                 * Set the value of lu
+                 */ 
+                public function setLuSt(?string $lu) {
+                    $this->lu = false;
+                    if (is_numeric($lu)) {
+                        $num = intval($lu);
+                        if (is_int($num)) {
+                            $this->setLuInt(intval($num));
+                        }
                     }
                 }
-            } else {
-                $this->error_text = $this->sgbd->error_text();
-                $this->error_number = $this->sgbd->error_number();
-                $this->error_log->addError($this->sgbd->error_number(), "plats_chaud", $this->sgbd->error_text());
-            }
-            return false;
-        }
+
+                /**
+                 * Set the value of lu
+                 */ 
+                public function setLuInt(int $lu) {
+                        $this->lu = ($lu == 1);
+                }
+        
+                /**
+                 * Set the value of lu
+                 */ 
+                public function setLu(bool $lu) {
+                        $this->lu = $lu;
+                }
+
+                /**
+                 * Get the value of Nom
+                 */ 
+                public function getNom():?string {
+                        return $this->Nom;
+                }
+        
+                /**
+                 * Get the value of Prenom
+                 */ 
+                public function getPrenom():?string {
+                        return $this->Prenom;
+                }
+        
+                /**
+                 * Get the value of Email
+                 */ 
+                public function getEmail():?string {
+                        return $this->Email;
+                }
+        
+                /**
+                 * Get the value of Message
+                 */ 
+                public function getMessage():?string {
+                        return $this->Message;
+                }
+
         
     }
 }

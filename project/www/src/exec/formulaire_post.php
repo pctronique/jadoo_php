@@ -1,8 +1,8 @@
 <?php 
 
-include_once dirname(__FILE__) . '/../class/Message.php';
+include_once dirname(__FILE__) . '/../class/SGBD_Messages.php';
 
-$sgbd_message = new Message();
+$sgbd_message = new SGBD_Messages();
 
 if(!empty($_POST) && array_key_exists('name', $_POST) && array_key_exists('first_name', $_POST) && 
     array_key_exists('mail', $_POST) && array_key_exists('user_text', $_POST)) {

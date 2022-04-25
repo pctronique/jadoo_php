@@ -6,9 +6,9 @@
   }
 
 
-include_once dirname(__FILE__) . '/../class/Message.php';
+include_once dirname(__FILE__) . '/../class/SGBD_Messages.php';
 
-$sgbd_message = new Message();
+$sgbd_message = new SGBD_Messages();
 
   $classmsg = "msg_valide";
 

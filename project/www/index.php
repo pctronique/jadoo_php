@@ -6,6 +6,8 @@ if(!empty($_GET) && array_key_exists("pg", $_GET)) {
 }
 
 if($pg == "admin") {
+} else if($pg == "delete_msg") {
+  include_once dirname(__FILE__) . '/src/exec/delete_msg.php';
 } else if($pg == "conn") {
   include_once dirname(__FILE__) . '/src/exec/connexion.php';
 } else if($pg == "deconn") {
@@ -16,7 +18,7 @@ if($pg == "admin") {
   include_once dirname(__FILE__) . '/src/pages/accueil_post.php';
 }
 
-if($pg != "msgpost" && $pg != "conn" && $pg != "deconn") {
+if($pg != "msgpost" && $pg != "conn" && $pg != "deconn" && $pg != "delete_msg") {
 ?>
 
 <!DOCTYPE html>
@@ -76,6 +78,22 @@ if($pg != "msgpost" && $pg != "conn" && $pg != "deconn") {
             <li>
               <a href="./#section_contact">Contactez-nous</a>
             </li>
+            <?php if($pg == "admin") { ?>
+              <li>
+              User
+                <ul id="user_menu">
+                  <li>
+                    <a href="./?pg=admin">Plats</a>
+                  </li>
+                  <li>
+                    <a href="./?pg=admin">Plats</a>
+                  </li>
+                  <li>
+                    
+                  </li>
+                </ul>
+              <li>
+            <?php } ?>
           </ul>
         </nav>
       </div>
@@ -154,11 +172,14 @@ if($pg != "msgpost" && $pg != "conn" && $pg != "deconn") {
       <p id="droits_reserves">Tous droits réservés @<a href="./?pg=admin">jadoo.com</a></p>
     </footer>
     <?php
-    if($pg == "admin") {
-    } else { ?>
-      <script src="./src/js/Post_Save.js"></script>
-      <script src="./src/js/validation_formulaire.js"></script>
-    <?php } ?>
+    if($pg == "admin") { ?>
+      <script src="./src/js/message.js"></script>
+    <?php } else {
+      if($pg != "msgpost" && $pg != "conn" && $pg != "deconn" && $pg != "delete_msg") { ?>
+        <script src="./src/js/Post_Save.js"></script>
+        <script src="./src/js/validation_formulaire.js"></script>
+      <?php }
+    } ?>
   </body>
 </html>
 <?php } ?>

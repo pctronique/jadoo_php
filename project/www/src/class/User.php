@@ -18,7 +18,7 @@ if (!class_exists('User')) {
 
                 public function __construct(?string $name, ?string $firstname, ?string $email, ?string $login)
                 {
-                        $this->id_user = -1;
+                        $this->id_user = 0;
                         $this->jeton = "";
                         $this->name = $name;
                         $this->firstname = $firstname;
@@ -31,7 +31,7 @@ if (!class_exists('User')) {
                 /**
                  * Get the value of id_user
                  */
-                public function getId_user(): ?string
+                public function getId_user(): int
                 {
                         return $this->id_user;
                 }
@@ -49,7 +49,7 @@ if (!class_exists('User')) {
                  */
                 public function setId_userSt(?string $id_user): void
                 {
-                        $this->id_user = -1;
+                        $this->id_user = 0;
                         if (is_numeric($id_user)) {
                                 $num = intval($id_user);
                                 if (is_int($num)) {

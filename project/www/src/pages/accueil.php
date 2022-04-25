@@ -1,6 +1,5 @@
 <?php
-include_once dirname(__FILE__) . '/../class/Plats.php';
-include_once dirname(__FILE__) . '/../class/Message.php';
+include_once dirname(__FILE__) . '/../class/SGBD_Plats.php';
 
 $folder_tmp = "tmp";
 if(defined("TMP_FOLDER")) {
@@ -31,7 +30,7 @@ if(!empty($_COOKIE) && array_key_exists("info_message", $_COOKIE)) {
     setcookie("info_message", "", time()-3600);
 }
 
-$sgbd_plats = new Plats();
+$sgbd_plats = new SGBD_Plats();
 
 ?>
 
@@ -80,11 +79,11 @@ $sgbd_plats = new Plats();
               <article class="plat">
                 <h6>plat</h6>
                 <img
-                  src="data/images/<?php echo $plat['Image'] ?>"
-                  alt="Image <?php echo $plat['Nom'] ?>"
+                  src="data/images/<?php echo $plat->getImage() ?>"
+                  alt="Image <?php echo $plat->getNom() ?>"
                 />
                 <p class="plat_text">
-                <?php echo $plat['Description'] ?>
+                <?php echo $plat->getDescription() ?>
                 </p>
               </article>
             </figure>
@@ -112,13 +111,13 @@ $sgbd_plats = new Plats();
             <article class="maki">
               <h6>maki</h6>
               <img
-                src="data/images/<?php echo $plat['Image'] ?>"
-                alt="Image <?php echo $plat['Nom'] ?>"
+                src="data/images/<?php echo $plat->getImage() ?>"
+                alt="Image <?php echo $plat->getNom() ?>"
               />
               <p>
-                <span class="maki_title"><?php echo $plat['Nom'] ?></span><br />
+                <span class="maki_title"><?php echo $plat->getNom() ?></span><br />
 
-                <span class="maki_text"><?php echo $plat['Description'] ?></span>
+                <span class="maki_text"><?php echo $plat->getDescription() ?></span>
               </p>
             </article>
           </figure>

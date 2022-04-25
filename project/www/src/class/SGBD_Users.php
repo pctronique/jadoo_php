@@ -1,26 +1,23 @@
 <?php
 
-if (!class_exists('Users')) {
+if (!class_exists('SGBD_Users')) {
 
     include_once dirname(__FILE__) . '/Pass_Crypt.php';
     include_once dirname(__FILE__) . '/Connect_SGBD.php';
     include_once dirname(__FILE__) . '/Error_Log.php';
     include_once dirname(__FILE__) . '/User.php';
 
-    class Users
-    {
+    class SGBD_Users {
 
         private $User;
 
-        public function __construct()
-        {
+        public function __construct() {
             $this->error_log = new Error_Log();
             $this->sgbd = new Connect_SGBD();
             $this->sgbd->connect();
         }
 
-        public function all(): ?array
-        {
+        public function all(): ?array {
             if ($this->sgbd->error_number() == 0) {
                 try {
                     $values = [];
@@ -59,8 +56,7 @@ if (!class_exists('Users')) {
             }
         }
 
-        public function user(?string $login, ?string $pass): ?User
-        {
+        public function user(?string $login, ?string $pass): ?User {
             if ($this->sgbd->error_number() == 0) {
                 try {
                     $values = null;
@@ -107,8 +103,7 @@ if (!class_exists('Users')) {
         /**
          * Get the value of User
          */
-        public function getUser(): ?User
-        {
+        public function getUser(): ?User {
             return $this->User;
         }
     }
