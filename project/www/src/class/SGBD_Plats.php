@@ -52,11 +52,7 @@ if (!class_exists('SGBD_Plats')) {
                     foreach ($data as $valueLine) {
                         $data_line = [];
                         foreach ($valueLine as $key => $value){
-                            if(strtolower(gettype($value)) == "string") {
-                                $data_line[$key] = utf8_encode($value);
-                            } else {
-                                $data_line[$key] = $value;
-                            }
+                            $data_line[$key] = $value;
                         }
                         $plat = new Plat($data_line['Nom'], $data_line['Description'], $data_line['Image']);
                         $plat->setIdSt($data_line['Id']);
@@ -88,11 +84,7 @@ if (!class_exists('SGBD_Plats')) {
                     foreach ($data as $valueLine) {
                         $data_line = [];
                         foreach ($valueLine as $key => $value){
-                            if(strtolower(gettype($value)) == "string") {
-                                $data_line[$key] = utf8_encode($value);
-                            } else {
-                                $data_line[$key] = $value;
-                            }
+                            $data_line[$key] = $value;
                         }
                         $plat = new Plat($data_line['Nom'], $data_line['Description'], $data_line['Image']);
                         $plat->setIdSt($data_line['id']);
@@ -125,11 +117,7 @@ if (!class_exists('SGBD_Plats')) {
                     foreach ($data as $valueLine) {
                         $data_line = [];
                         foreach ($valueLine as $key => $value){
-                            if(strtolower(gettype($value)) == "string") {
-                                $data_line[$key] = utf8_encode($value);
-                            } else {
-                                $data_line[$key] = $value;
-                            }
+                            $data_line[$key] = $value;
                         }
                         $plat = new Plat($data_line['Nom'], $data_line['Description'], $data_line['Image']);
                         $plat->setIdSt($data_line['id']);
@@ -140,6 +128,36 @@ if (!class_exists('SGBD_Plats')) {
                     $this->error_text = $exc;
                     $this->error_number = 956710001;
                     $this->error_log->addError(956710001, "plats_chaud", $exc);
+                    return array();
+                }
+            } else {
+                $this->error_text = $this->sgbd->error_text();
+                $this->error_number = $this->sgbd->error_number();
+                $this->error_log->addError($this->sgbd->error_number(), "plats_chaud", $this->sgbd->error_text());
+                return array();
+            }
+
+        }
+
+        public function all_categorie():?array {
+            if($this->sgbd->error_number() == 0) {
+                try {
+                    $values = [];
+                    $res = $this->sgbd->prepare("SELECT * FROM  categories");
+                    $res->execute();
+                    $data = $res->fetchAll(PDO::FETCH_OBJ);
+                    foreach ($data as $valueLine) {
+                        $data_line = [];
+                        foreach ($valueLine as $key => $value){
+                            $data_line[$key] = $value;
+                        }
+                        array_push($values, $data_line);
+                    }
+                    return $values;
+                } catch (PDOException $exc) {
+                    $this->error_text = $exc;
+                    $this->error_number = 956710000;
+                    $this->error_log->addError(956710000, "plats_chaud", $exc);
                     return array();
                 }
             } else {

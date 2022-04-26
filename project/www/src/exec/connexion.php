@@ -1,16 +1,11 @@
 <?php
 
-include_once dirname(__FILE__) . '/../class/SGBD_Users.php';
+include_once dirname(__FILE__) . '/../class/User_Session.php';
 
-session_start();
+$session_user = new User_Session();
 
 if (!empty($_POST) && array_key_exists("login", $_POST) && array_key_exists("password", $_POST)) {
-    $users = new SGBD_Users();
-    $user = $users->user($_POST['login'], $_POST['password']);
-    if(!empty($user)) {
-        $_SESSION['id_user'] = $user->getId_user();
-        $_SESSION['jeton'] = $user->getJeton();
-    }
+    $session_user->start($_POST['login'], $_POST['password']);
 }
 
 header('Location: ./../../?pg=admin');

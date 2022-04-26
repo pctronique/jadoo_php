@@ -1,14 +1,10 @@
 <?php
 
-session_start();
-if(!empty($_SESSION) && array_key_exists('id_user', $_SESSION) && array_key_exists('jeton', $_SESSION)) {
-    $_SESSION['id_user'] = "";
-    $_SESSION['jeton'] = "";
-    unset($_SESSION['id_user']);
-    unset($_SESSION['jeton']);
-    unset($_SESSION);
-}
-session_destroy();
+include_once dirname(__FILE__) . '/../class/User_Session.php';
+
+$session_user = new User_Session();
+$session_user->stop();
+
 header('location: ./../../');
 
 ?>

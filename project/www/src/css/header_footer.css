@@ -101,6 +101,25 @@ h6 {
   transform: scale(1.05);
 }
 
+.button_gris,
+.button_gris:hover,
+.button_gris:link {
+  display: inline-block;
+  background-color: grey;
+  border: none;
+  padding: 15px;
+  border-radius: 5px;
+  box-shadow: 0px 20px 35px 6px rgba(128, 128, 128, 0.16);
+  color: white;
+  font-family: "poppins-regular";
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.button_gris:hover {
+  transform: scale(1.05);
+}
+
 button img {
   min-width: 15px;
   min-height: 15px;

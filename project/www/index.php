@@ -1,5 +1,9 @@
 <?php
 
+include_once dirname(__FILE__) . '/src/class/User_Session.php';
+
+$session_user = new User_Session();
+
 $pg = "ind";
 if(!empty($_GET) && array_key_exists("pg", $_GET)) {
   $pg = $_GET['pg'];
@@ -78,7 +82,7 @@ if($pg != "msgpost" && $pg != "conn" && $pg != "deconn" && $pg != "delete_msg") 
             <li>
               <a href="./#section_contact">Contactez-nous</a>
             </li>
-            <?php if($pg == "admin") { ?>
+            <?php if($pg == "admin" && $session_user->isConnected()) { ?>
               <li id="submenu_categories">
               User
                 <ul id="user_menu" class="submenu">

@@ -9,89 +9,56 @@
 if (!class_exists('Plat')) {
 
     include_once dirname(__FILE__) . '/User.php';
+    include_once dirname(__FILE__) . '/Date_Id.php';
 
     /**
      * Description of ConfigIni
      *
      * @author pctronique
      */
-    class Plat {
+    class Plat extends Date_Id {
 
         private $nom;
         private $description;
         private $image;
-        private $date;
-        private $id;
         private $user;
+        private $idCategorie;
 
         public function __construct(?string $nom, ?string $description, ?string $image) {
+                parent::__construct();
             $this->nom = $nom;
             $this->description = $description;
             $this->image = $image;
             $this->user = null;
+            $this->idCategorie = 0;
         }
 
         /**
          * Get the value of id_user
          */
-        public function getId(): int {
-                return $this->id;
+        public function getIdCategorie(): int {
+                return $this->idCategorie;
         }
 
         /**
          * Set the value of id_user
          */
-        public function setId(int $id): void {
-                $this->id = $id;
+        public function setIdCategorie(int $id): void {
+                $this->idCategorie = $id;
         }
 
         /**
-         * Set the value of id
+         * Set the value of id_user
          */
-        public function setIdSt(?string $id): void {
-                $this->id = 0;
+        public function setIdCategorieSt(?string $id): void {
+                $this->idCategorie = 0;
                 if (is_numeric($id)) {
                         $num = intval($id);
                         if (is_int($num)) {
-                                $this->id = intval($num);
+                                $this->idCategorie = intval($num);
                         }
                 }
         }
-
-        /**
-         * Get the value of date
-         */
-        public function getDate(): ?int {
-                return $this->date;
-        }
-
-        /**
-         * Set the value of date
-         *
-         * @return  self
-         */
-        public function setDate(?DateTime $date):void {
-                $this->date = $date->getTimestamp();
-        }
-
-        /**
-         * Set the value of date
-         *
-         * @return  self
-         */
-        public function setDateSt(?string $date):void {
-                $this->date = strtotime($date);
-        }
-
-        /**
-         * Set the value of date
-         *
-         * @return  self
-         */
-        public function getDateSt(): ?string {
-                return date('Y-M-d h:i:s', $this->date);
-        }
-
 
         /**
          * Get the value of nom

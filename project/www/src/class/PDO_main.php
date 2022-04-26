@@ -140,7 +140,7 @@ if (!class_exists('PDO_main')) {
             if(!empty($this->database) && $isBase) {
                 $line .= ';dbname=' . $this->database;
             }
-            return $line;
+            return $line.";charset=UTF8";
         }
         
         /**

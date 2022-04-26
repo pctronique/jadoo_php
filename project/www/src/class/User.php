@@ -1,62 +1,47 @@
 <?php
 
 if (!class_exists('User')) {
-        
-        session_start();
-        include_once dirname(__FILE__) . '/Pass_Crypt.php';
 
-        class User
+        include_once dirname(__FILE__) . '/Pass_Crypt.php';
+        include_once dirname(__FILE__) . '/Date_Id.php';
+
+        class User extends Date_Id
         {
 
-                private $id_user;
                 private $jeton;
                 private $name;
                 private $firstname;
                 private $email;
                 private $login;
                 private $pass;
-                private $date;
+                private $admin;
 
                 public function __construct(?string $name, ?string $firstname, ?string $email, ?string $login)
                 {
-                        $this->id_user = 0;
+                        parent::__construct();
                         $this->jeton = "";
                         $this->name = $name;
                         $this->firstname = $firstname;
                         $this->email = $email;
                         $this->login = $login;
                         $this->pass = "";
-                        $this->date = 0;
+                        $this->admin = false;
+                }
+                
+                /**
+                 * Get the value of admin
+                 */ 
+                public function getAdmin(): bool {
+                        return $this->admin;
                 }
 
                 /**
-                 * Get the value of id_user
-                 */
-                public function getId_user(): int
-                {
-                        return $this->id_user;
-                }
-
-                /**
-                 * Set the value of id_user
-                 */
-                public function setId_user(int $id_user): void
-                {
-                        $this->id_user = $id_user;
-                }
-
-                /**
-                 * Set the value of id_user
-                 */
-                public function setId_userSt(?string $id_user): void
-                {
-                        $this->id_user = 0;
-                        if (is_numeric($id_user)) {
-                                $num = intval($id_user);
-                                if (is_int($num)) {
-                                        $this->id_user = intval($num);
-                                }
-                        }
+                 * Set the value of admin
+                 *
+                 * @return  self
+                 */ 
+                public function setAdmin(bool $admin): void {
+                        $this->admin = $admin;
                 }
 
                 /**
@@ -136,49 +121,6 @@ if (!class_exists('User')) {
                         return Pass_Crypt::verify($pass, $this->pass);
                 }
 
-                /**
-                 * Get the value of date
-                 */
-                public function getDate(): ?int
-                {
-                        return $this->date;
-                }
-
-                /**
-                 * Set the value of date
-                 *
-                 * @return  self
-                 */
-                public function setDate(?DateTime $date)
-                {
-                        $this->date = $date->getTimestamp();
-                }
-
-                /**
-                 * Set the value of date
-                 *
-                 * @return  self
-                 */
-                public function setDateSt(?string $date)
-                {
-                        $this->date = strtotime($date);
-                }
-
-                /**
-                 * Set the value of date
-                 *
-                 * @return  self
-                 */
-                public function getDateSt(): ?string
-                {
-                        return date('Y-M-d h:i:s', $this->date);
-                }
-
-                public static function isConnected():bool {
-                        if(!empty($_SESSION) && array_key_exists('id_user', $_SESSION) && array_key_exists('jeton', $_SESSION)) {
-                                return true;
-                        }
-                        return false;
-                }
         }
+        
 }

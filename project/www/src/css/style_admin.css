@@ -1,5 +1,5 @@
 #admin {
-    background: url("../imgs/stock-photo-burger-with-ingredients-restaurant-menu.svg") no-repeat;
+    background: url("./../imgs/illustration_commander.jpg") no-repeat;
     background-size: cover;
     background-position: center;
     width: 100%;
@@ -25,9 +25,7 @@
 .msg {
     text-align: left;
     padding: 10px;
-    border: grey 1px solid;
-    border-bottom-left-radius: 10px;
-    border-top-left-radius: 10px;
+    border-radius: 20px;
 }
 
 #list_msg a,
@@ -40,7 +38,8 @@
     background-color: white;
     text-align: left;
     padding: 10px;
-    border: grey 1px solid;
+    border-radius: 20px;
+    box-shadow: 2px 14px 14px #f3f3f3;
 }
 
 #connexion {
@@ -104,11 +103,19 @@
 }
 
 .msg_no_lu {
-    background-color: rgb(169, 252, 224);
+    background-color: rgb(192, 253, 233);
 }
 
 .msg_lu {
     background-color: rgb(250, 250, 250);
+}
+
+.msg_no_lu:hover {
+    background-color: rgb(145, 255, 218);
+}
+
+.msg_lu:hover {
+    background-color: rgb(228, 228, 228);
 }
 
 .un_msg {
@@ -130,13 +137,22 @@
     margin-top: 15px;
 }
 
-.form_active figure {
+#admin #user, #admin #pass {
     display: grid;
     grid-template-columns: auto 1fr;
     text-align: center;
+    width: 500px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: 2px 14px 14px #f3f3f3;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    align-items: center;
 }
 
-.form_active input {
+input, textarea, select {
   display: flex;
   color: black;
   align-items: center;
@@ -148,18 +164,69 @@
   margin-bottom: 10px;
 }
 
-.form_active input:focus {
+textarea {
+    height: 100px;
+}
+
+input:focus, textarea:focus, select:focus {
   outline: none;
   border-bottom: 0.1px solid rgb(0, 119, 255);
 }
 
-.form_active input:hover {
+input:hover, textarea:hover, select:hover {
   transform: scale(1.02);
 }
 
-.form_active label {
+label {
     text-align: right;
     padding-right: 10px;
+}
+
+#img-plat {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    justify-items: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 30px;
+    margin-top: 15px;
+    width: 235px;
+    height: 235px;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+#bt_valide_annule {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#bt_valide_annule .bt_plat {
+    margin: 5px;
+}
+
+/************************************/
+/** version < 533px **/
+/************************************/
+@media screen and (max-width: 533px) {
+    #connexion form {
+        grid-template-columns: auto;
+        text-align: center;
+        width: 100%;
+    }
+
+    .two_column_button {
+        grid-column-start: 1;
+        grid-column-end: 2;
+    }
+
+    #connexion form label {
+        text-align: center;
+        margin-bottom: 0px;
+    }
 }
 
 /************************************/

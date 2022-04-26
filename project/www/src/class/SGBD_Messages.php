@@ -54,11 +54,7 @@ if (!class_exists('SGBD_Messages')) {
                     foreach ($data as $valueLine) {
                         $data_line = [];
                         foreach ($valueLine as $key => $value){
-                            if(strtolower(gettype($value)) == "string") {
-                                $data_line[$key] = utf8_encode($value);
-                            } else {
-                                $data_line[$key] = $value;
-                            }
+                            $data_line[$key] = $value;
                         }
                         $message = new Message($data_line['Nom'], $data_line['Prenom'], $data_line['Email'], $data_line['Message']);
                         $message->setIdSt($data_line['Id']);
@@ -113,10 +109,10 @@ if (!class_exists('SGBD_Messages')) {
                         $res = $this->sgbd->prepare("INSERT INTO messages(Nom, Prenom, Email, Message) VALUES ".
                         "(:Nom,:Prenom,:Email,:Message)");
                         $res->execute([
-                            ":Nom" => utf8_decode(htmlspecialchars(stripslashes(trim($Nom)))),
-                            ":Prenom" => utf8_decode(htmlspecialchars(stripslashes(trim($Prenom)))),
-                            ":Email" => utf8_decode(htmlspecialchars(stripslashes(trim($Email)))),
-                            ":Message" => utf8_decode(htmlspecialchars(stripslashes(trim($Message)))),
+                            ":Nom" => htmlspecialchars(stripslashes(trim($Nom))),
+                            ":Prenom" => htmlspecialchars(stripslashes(trim($Prenom))),
+                            ":Email" => htmlspecialchars(stripslashes(trim($Email))),
+                            ":Message" => htmlspecialchars(stripslashes(trim($Message))),
                         ]);
                         $this->info = "Le message a été transmis, nous vous répondrons dans les plus brefs délais.";
                         return true;
