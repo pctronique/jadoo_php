@@ -20,6 +20,7 @@ require_once(RACINE_WWW . 'src/class/ConfigIni.php');
  * @author pctronique
  */
 class ConfigIniTest extends TestCase {
+
     /**
      * @var ConfigIni
      */
@@ -39,59 +40,69 @@ class ConfigIniTest extends TestCase {
      */
     protected function tearDown(): void {}
     
-   public function testCrypt() {
-       foreach (array_string_all() as $value) {
-        $this->assertNotNull($this->object->crypt($value));
-        $this->assertIsString($this->object->crypt($value));
-       }
-   }
+    public function testCrypt(): void {
+        foreach (array_string_all() as $value) {
+            $valueTest = $this->object->crypt($value);
+            $this->assertNotNull($valueTest);
+            $this->assertIsString($valueTest);
+            $this->testGetError_code();
+            $this->testGetError_message();
+            $this->testGetType();
+            $this->testGetServer();
+            $this->testGetPort();
+            $this->testGetName();
+            $this->testGetUser();
+            $this->testGetPass();
+            $this->testGetPrefix();
+        }
+    }
 
-        public function testGetError_code() {
+    public function testGetError_code(): void {
         $this->assertNotNull($this->object->getError_code());
         $this->assertFalse(($this->object->getError_code() < 0));
         $this->assertIsInt($this->object->getError_code());
-        }
+    }
 
-        public function testGetError_message() {
+    public function testGetError_message(): void {
         $this->assertNotNull($this->object->getError_message());
         $this->assertIsString($this->object->getError_message());
-        }
+    }
         
-        public function testGetType() {
+    public function testGetType(): void {
         $this->assertNotNull($this->object->getType());
         $this->assertIsString($this->object->getType());
-        }
+    }
         
-        public function testGetServer() {
+    public function testGetServer(): void {
         $this->assertNotNull($this->object->getServer());
         $this->assertIsString($this->object->getServer());
-        }
+    }
         
-        public function testGetPort() {
+    public function testGetPort(): void {
         $this->assertNotNull($this->object->getPort());
         $this->assertFalse(($this->object->getPort() < 0));
         $this->assertIsInt($this->object->getPort());
-        }
+    }
         
-        public function testGetName() {
+    public function testGetName(): void {
         $this->assertNotNull($this->object->getName());
         $this->assertIsString($this->object->getName());
-        }
+    }
         
-        public function testGetUser() {
+    public function testGetUser(): void {
         $this->assertNotNull($this->object->getUser());
         $this->assertIsString($this->object->getUser());
-        }
+    }
         
-        public function testGetPass() {
+    public function testGetPass(): void {
         $this->assertNotNull($this->object->getPass());
         $this->assertIsString($this->object->getPass());
-        }
+    }
         
-        public function testGetPrefix() {
+    public function testGetPrefix(): void {
         $this->assertNotNull($this->object->getPrefix());
         $this->assertIsString($this->object->getPrefix());
-        }
+    }
 
 }
 

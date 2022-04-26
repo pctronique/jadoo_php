@@ -27,7 +27,7 @@ if (!class_exists('Pass_Crypt')) {
             $options = [
                 'cost' => Pass_Crypt::test_Cost(),
             ];
-            return str_replace(Pass_Crypt::START_PASS, '', password_hash("rasmuslerdorf", PASSWORD_ARGON2I, $options));
+            return str_replace(Pass_Crypt::START_PASS, '', password_hash($pass, PASSWORD_ARGON2I, $options));
         }
 
         public static function verify(?string $pass, ?string $hash):bool {
@@ -36,7 +36,5 @@ if (!class_exists('Pass_Crypt')) {
 
     }
 }
-
-echo Pass_Crypt::password("secret");
 
 ?>

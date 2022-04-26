@@ -1,11 +1,12 @@
 <?php
 
-if (!class_exists('Plats')) {
+if (!class_exists('SGBD_Plats')) {
 
     include_once dirname(__FILE__) . '/Connect_SGBD.php';
     include_once dirname(__FILE__) . '/Error_Log.php';
+    include_once dirname(__FILE__) . '/Plat.php';
 
-    class Plats {
+    class SGBD_Plats {
 
         private $sgbd;
         private $error_log;
@@ -57,7 +58,9 @@ if (!class_exists('Plats')) {
                                 $data_line[$key] = $value;
                             }
                         }
-                        array_push($values, $data_line);
+                        $plat = new Plat($data_line['Nom'], $data_line['Description'], $data_line['Image']);
+                        $plat->setIdSt($data_line['Id']);
+                        array_push($values, $plat);
                     }
                     return $values;
                 } catch (PDOException $exc) {
@@ -91,7 +94,9 @@ if (!class_exists('Plats')) {
                                 $data_line[$key] = $value;
                             }
                         }
-                        array_push($values, $data_line);
+                        $plat = new Plat($data_line['Nom'], $data_line['Description'], $data_line['Image']);
+                        $plat->setIdSt($data_line['id']);
+                        array_push($values, $plat);
                     }
                     return $values;
                 } catch (PDOException $exc) {
@@ -126,7 +131,9 @@ if (!class_exists('Plats')) {
                                 $data_line[$key] = $value;
                             }
                         }
-                        array_push($values, $data_line);
+                        $plat = new Plat($data_line['Nom'], $data_line['Description'], $data_line['Image']);
+                        $plat->setIdSt($data_line['id']);
+                        array_push($values, $plat);
                     }
                     return $values;
                 } catch (PDOException $exc) {

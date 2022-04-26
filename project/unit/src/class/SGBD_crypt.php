@@ -56,7 +56,6 @@ if (!class_exists('SGBD_crypt')) {
             $all_error = "";
             while ($msg = openssl_error_string()) {
                 $all_error = "error : ".$msg . "\n";
-                echo "error : ".$msg . "<br />";
             }
             if(!empty($all_error)) {
                 $this->error_text = $all_error;
@@ -78,7 +77,7 @@ if (!class_exists('SGBD_crypt')) {
             $second_encrypted = substr($mix,$iv_length,64);
             $first_encrypted = substr($mix,$iv_length+64);
                     
-            $data = openssl_decrypt($first_encrypted,$method,$first_key,OPENSSL_RAW_DATA,$iv);
+            $data = openssl_decrypt($first_encrypted, $method, $first_key, OPENSSL_RAW_DATA, $iv);
             $second_encrypted_new = hash_hmac($this->second_methode, $first_encrypted, $second_key, TRUE);
             
             if (hash_equals($second_encrypted,$second_encrypted_new)) {
@@ -88,8 +87,6 @@ if (!class_exists('SGBD_crypt')) {
             $all_error = "";
             while ($msg = openssl_error_string()) {
                 $all_error = "error : ".$msg . "\n";
-                echo "error : ".$msg . "<br />";
-
             }
             if(!empty($all_error)) {
                 $this->error_text = $all_error;

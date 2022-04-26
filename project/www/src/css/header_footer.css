@@ -232,6 +232,42 @@ header ul li {
   padding: 10px;
 }
 
+.submenu {
+  background-color: #ffffff;
+  display: none;
+  position: absolute;
+  margin-top: 9px;
+  margin-left: 535px;
+  width: 150px;
+  /* border: #8F8F8F 1px solid; */
+  /* box-shadow: 5px 5px 10px RGBa(0, 0, 0, 0.5);*/
+}
+
+.submenu li {
+    width: 100%;
+    display: inline-block;
+    float: none;
+    text-align: left;
+    line-height: 25px;
+    padding: 10px;
+}
+
+.submenu li:hover {
+    /*background-color: #d3d2d2;
+    transform: scale(1.03);
+    border: #8F8F8F 1px solid;
+    box-shadow: 5px 5px 10px RGBa(0, 0, 0, 0.5);*/
+}
+
+header ul #submenu_categories:hover {
+    cursor: pointer;
+}
+
+header ul #submenu_categories:hover .submenu, 
+header ul #submenu_categories .submenu:hover {
+    display: block;
+}
+
 header #head_logo_01 {
   margin-top: 20px;
   margin-left: 130px;

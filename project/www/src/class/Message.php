@@ -28,6 +28,7 @@ if (!class_exists('Message')) {
             $this->Prenom = $Prenom;
             $this->Email = $Email;
             $this->Message = $Message;
+            $this->lu = false;
         }
 
                 /**
@@ -70,7 +71,9 @@ if (!class_exists('Message')) {
                  * @return  self
                  */
                 public function setDate(?DateTime $date):void {
-                        $this->date = $date->getTimestamp();
+                        if($date != null) {
+                                $this->date = $date->getTimestamp();
+                        }
                 }
 
                 /**

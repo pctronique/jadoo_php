@@ -2,6 +2,7 @@
 
 if (!class_exists('User')) {
         
+        session_start();
         include_once dirname(__FILE__) . '/Pass_Crypt.php';
 
         class User
@@ -171,6 +172,13 @@ if (!class_exists('User')) {
                 public function getDateSt(): ?string
                 {
                         return date('Y-M-d h:i:s', $this->date);
+                }
+
+                public static function isConnected():bool {
+                        if(!empty($_SESSION) && array_key_exists('id_user', $_SESSION) && array_key_exists('jeton', $_SESSION)) {
+                                return true;
+                        }
+                        return false;
                 }
         }
 }

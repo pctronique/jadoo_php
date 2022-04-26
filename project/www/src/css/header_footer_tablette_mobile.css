@@ -67,6 +67,12 @@
     opacity: 0.9;
   }
 
+  .submenu {
+    display: block;
+    margin-top: -3px;
+    margin-left: 143px;
+  }
+
   /*----------*/
   /** footer **/
   #footer_contenu {

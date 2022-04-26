@@ -40,29 +40,6 @@ INSERT INTO `categories` (`Id_Categorie`, `Categorie`) VALUES
 (2, 'makis');
 
 --
--- Déchargement des données de la table `messages`
---
-
-INSERT INTO `messages` (`Id`, `Nom`, `Prenom`, `Email`, `Message`, `lu`, `date`) VALUES
-(1, 'NAULOT', 'Ludovic', 'l.naulot@codeur.online', 'Bientôt l\'été ou pas :).', 1, '2022-04-25 07:10:03'),
-(2, 'NAULOT', 'Ludovic', 'l.naulot@codeur.online', 'Bonjour ca va.', 1, '2022-04-25 07:25:03'),
-(3, 'naulot', 'ludovic', 'fgfdgd@oii.ju', 'cvcvcvc cvcv', 1, '2022-04-25 07:52:14'),
-(4, 'cvc', 'cxvc', 'hh@juu.hy', 'vvcx vvv c', 1, '2022-04-25 07:53:14');
-
---
--- Déchargement des données de la table `modifier_plat`
---
-
-INSERT INTO `modifier_plat` (`id_creation_plat`, `id_plats`, `id_user`, `date_creation`) VALUES
-(1, 1, 1, '2022-04-25 09:58:03'),
-(2, 2, 1, '2022-04-25 09:59:18'),
-(3, 3, 1, '2022-04-25 09:59:18'),
-(4, 4, 1, '2022-04-25 09:59:18'),
-(5, 5, 1, '2022-04-25 09:59:18'),
-(6, 6, 1, '2022-04-25 09:59:18'),
-(7, 7, 1, '2022-04-25 09:59:18');
-
---
 -- Déchargement des données de la table `plats`
 --
 
@@ -82,6 +59,19 @@ INSERT INTO `plats` (`id`, `Nom`, `Description`, `Image`, `Id_Categorie`, `date_
 INSERT INTO `user` (`id_user`, `name`, `firstname`, `email`, `login`, `pass`, `id_admin`, `date`, `jeton`) VALUES
 (1, 'NAULOT', 'Ludovic', 'l.naulot@codeur.online', 'pctronique', 'Z3lnWWNPYTlxaFFwTDd6Yg$Nb15Ed5/8QofdG5wksbrZt8xE2gcqbZ9gzQnpDyheEk', 1, '2022-04-25 06:57:00', 'dfgfdgdfbcvbKLHLHkjK:!:;');
 COMMIT;
+
+--
+-- Déchargement des données de la table `modifier_plat`
+--
+
+INSERT INTO `modifier_plat` (`id_creation_plat`, `id_plats`, `id_user`, `date_creation`) VALUES
+(1, 1, 1, '2022-04-25 09:58:03'),
+(2, 2, 1, '2022-04-25 09:59:18'),
+(3, 3, 1, '2022-04-25 09:59:18'),
+(4, 4, 1, '2022-04-25 09:59:18'),
+(5, 5, 1, '2022-04-25 09:59:18'),
+(6, 6, 1, '2022-04-25 09:59:18'),
+(7, 7, 1, '2022-04-25 09:59:18');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

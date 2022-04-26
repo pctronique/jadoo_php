@@ -79,17 +79,28 @@ if($pg != "msgpost" && $pg != "conn" && $pg != "deconn" && $pg != "delete_msg") 
               <a href="./#section_contact">Contactez-nous</a>
             </li>
             <?php if($pg == "admin") { ?>
-              <li>
+              <li id="submenu_categories">
               User
-                <ul id="user_menu">
+                <ul id="user_menu" class="submenu">
                   <li>
                     <a href="./?pg=admin">Plats</a>
                   </li>
                   <li>
-                    <a href="./?pg=admin">Plats</a>
+                    <a href="./?pg=admin&admin=messages">Messages</a>
                   </li>
                   <li>
-                    
+                    <a href="./?pg=admin&admin=utilisateur">Utilisateur</a>
+                  </li>
+                  <?php /*
+                  <!--<li>
+                    <a href="./?pg=admin&admin=admin">Admin</a>
+                  </li>
+                  <li>
+                    <a href="./?pg=admin">Logs</a>
+                  </li>-->
+                  */ ?>
+                  <li>
+                    <a href="./?pg=deconn">Déconnexion</a>
                   </li>
                 </ul>
               <li>

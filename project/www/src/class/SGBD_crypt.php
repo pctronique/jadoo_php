@@ -42,56 +42,69 @@ if (!class_exists('SGBD_crypt')) {
         }
 
         public function encrypt(?string $data):string {
-            $first_key = base64_decode($this->first_Key);
-            $second_key = base64_decode($this->second_key);   
-            
-            $method = $this->first_method;   
-            $iv_length = openssl_cipher_iv_length($method);
-            $iv = openssl_random_pseudo_bytes($iv_length);
+            try {
+                $first_key = base64_decode($this->first_Key);
+                $second_key = base64_decode($this->second_key);   
                 
-            $first_encrypted = openssl_encrypt($data,$method,$first_key, OPENSSL_RAW_DATA ,$iv);   
-            $second_encrypted = hash_hmac($this->second_methode, $first_encrypted, $second_key, TRUE);
+                $method = $this->first_method;   
+                $iv_length = openssl_cipher_iv_length($method);
+                $iv = openssl_random_pseudo_bytes($iv_length);
                     
-            $output = base64_encode($iv.$second_encrypted.$first_encrypted); 
-            $all_error = "";
-            while ($msg = openssl_error_string()) {
-                $all_error = "error : ".$msg . "\n";
+                $first_encrypted = openssl_encrypt($data,$method,$first_key, OPENSSL_RAW_DATA ,$iv);   
+                $second_encrypted = hash_hmac($this->second_methode, $first_encrypted, $second_key, TRUE);
+                        
+                $output = base64_encode($iv.$second_encrypted.$first_encrypted); 
+                $all_error = "";
+                while ($msg = openssl_error_string()) {
+                    $all_error = "error : ".$msg . "\n";
+                }
+                if(!empty($all_error)) {
+                    $this->error_text = $all_error;
+                    $this->error_number = 776710000;
+                    $this->error_log->addError(776710000, "plats_chaud", $all_error);
+                }
+                return $output;   
+            } catch (Exception $e) {
+                $this->error_text = $e;
+                $this->error_number = 2801000002;
+                $this->error_log->addError(776710000, "plats_chaud", $e);
             }
-            if(!empty($all_error)) {
-                $this->error_text = $all_error;
-                $this->error_number = 776710000;
-                $this->error_log->addError(776710000, "plats_chaud", $all_error);
-            }
-            return $output;       
+            return "";       
         }
 
         public function decrypt(?string $input):?string {
-            $first_key = base64_decode($this->first_Key);
-            $second_key = base64_decode($this->second_key);           
-            $mix = base64_decode($input);
+            try {
+                $first_key = base64_decode($this->first_Key);
+                $second_key = base64_decode($this->second_key);           
+                $mix = base64_decode($input);
+                    
+                $method = $this->first_method;   
+                $iv_length = openssl_cipher_iv_length($method);
+                        
+                $iv = substr($mix,0,$iv_length);
+                $second_encrypted = substr($mix,$iv_length,64);
+                $first_encrypted = substr($mix,$iv_length+64);
+                        
+                $data = openssl_decrypt($first_encrypted, $method, $first_key, OPENSSL_RAW_DATA, $iv);
+                $second_encrypted_new = hash_hmac($this->second_methode, $first_encrypted, $second_key, TRUE);
                 
-            $method = $this->first_method;   
-            $iv_length = openssl_cipher_iv_length($method);
-                    
-            $iv = substr($mix,0,$iv_length);
-            $second_encrypted = substr($mix,$iv_length,64);
-            $first_encrypted = substr($mix,$iv_length+64);
-                    
-            $data = openssl_decrypt($first_encrypted, $method, $first_key, OPENSSL_RAW_DATA, $iv);
-            $second_encrypted_new = hash_hmac($this->second_methode, $first_encrypted, $second_key, TRUE);
-            
-            if (hash_equals($second_encrypted,$second_encrypted_new)) {
-                return $data; 
-            }
-            
-            $all_error = "";
-            while ($msg = openssl_error_string()) {
-                $all_error = "error : ".$msg . "\n";
-            }
-            if(!empty($all_error)) {
-                $this->error_text = $all_error;
-                $this->error_number = 776710000;
-                $this->error_log->addError(776710000, "plats_chaud", $all_error);
+                if (hash_equals($second_encrypted,$second_encrypted_new)) {
+                    return $data; 
+                }
+                
+                $all_error = "";
+                while ($msg = openssl_error_string()) {
+                    $all_error = "error : ".$msg . "\n";
+                }
+                if(!empty($all_error)) {
+                    $this->error_text = $all_error;
+                    $this->error_number = 776710000;
+                    $this->error_log->addError(776710000, "plats_chaud", $all_error);
+                }
+            } catch (Exception $e) {
+                $this->error_text = $e;
+                $this->error_number = 2801000002;
+                $this->error_log->addError(776710000, "plats_chaud", $e);
             }
             
             return "";

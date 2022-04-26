@@ -32,6 +32,14 @@ function array_string_all() {
     return array_unique(array_merge(array_string(), array_cmd(), array_folder()));
 }
 
+function array_int() {
+    $stab_int = [];
+    for($i=-100 ; $i <= 100 ; $i++) {
+        array_push($stab_int, $i);
+    }
+    return $stab_int;
+}
+
 function slash_initial_pwd($folder) {
     $value = stripos($folder, "/");
     if(!$value && $value !== 0) {

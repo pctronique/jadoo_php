@@ -1,11 +1,12 @@
 <?php
 
-if (!class_exists('Message')) {
+if (!class_exists('SGBD_Messages')) {
 
     include_once dirname(__FILE__) . '/Connect_SGBD.php';
     include_once dirname(__FILE__) . '/Error_Log.php';
+    include_once dirname(__FILE__) . '/Message.php';
 
-    class Message {
+    class SGBD_Messages {
 
         private $sgbd;
         private $error_log;
@@ -59,7 +60,11 @@ if (!class_exists('Message')) {
                                 $data_line[$key] = $value;
                             }
                         }
-                        array_push($values, $data_line);
+                        $message = new Message($data_line['Nom'], $data_line['Prenom'], $data_line['Email'], $data_line['Message']);
+                        $message->setIdSt($data_line['Id']);
+                        $message->setLuSt($data_line['lu']);
+                        $message->setDateSt($data_line['date']);
+                        array_push($values, $message);
                     }
                     return $values;
                 } catch (PDOException $exc) {
@@ -74,6 +79,28 @@ if (!class_exists('Message')) {
                 $this->error_log->addError($this->sgbd->error_number(), "plats_chaud", $this->sgbd->error_text());
                 return array();
             }
+        }
+
+        public function lu(int $id_message):bool {
+            if($this->sgbd->error_number() == 0) {
+                try {
+                    $res = $this->sgbd->prepare("UPDATE messages SET lu=1 WHERE Id=:id_message");
+                    $res->bindParam(':id_message', $id_message);
+                    $res->execute();
+                    return true;
+                } catch (PDOException $exc) {
+                    $this->error_text = $exc;
+                    $this->error_number = 956710000;
+                    $this->error_log->addError(956710000, "plats_chaud", $exc);
+                    return false;
+                }
+            } else {
+                $this->error_text = $this->sgbd->error_text();
+                $this->error_number = $this->sgbd->error_number();
+                $this->error_log->addError($this->sgbd->error_number(), "plats_chaud", $this->sgbd->error_text());
+                return false;
+            }
+
         }
         
         public function add_message(?string $Nom, ?string $Prenom, ?string $Email, ?string $Message): bool {
