@@ -4,6 +4,7 @@ if (!class_exists('SGBD_Plats')) {
 
     include_once dirname(__FILE__) . '/Connect_SGBD.php';
     include_once dirname(__FILE__) . '/Error_Log.php';
+    include_once dirname(__FILE__) . '/Error_Log.php';
     include_once dirname(__FILE__) . '/Plat.php';
 
     class SGBD_Plats {
@@ -41,12 +42,13 @@ if (!class_exists('SGBD_Plats')) {
             return $this->error_number;
         }
 
-        public function all_plats():?array {
+        public function one_plats(int $id):?Plat {
             if($this->sgbd->error_number() == 0) {
                 try {
-                    $values = [];
+                    $values = null;
                     $res = $this->sgbd->prepare("SELECT * FROM plats LEFT JOIN categories ON plats.Id_Categorie = categories.Id_Categorie".
-                    " ORDER BY id DESC");
+                    " WHERE id=:id");
+                    $res->bindParam(':id', $id);
                     $res->execute();
                     $data = $res->fetchAll(PDO::FETCH_OBJ);
                     foreach ($data as $valueLine) {
@@ -55,7 +57,40 @@ if (!class_exists('SGBD_Plats')) {
                             $data_line[$key] = $value;
                         }
                         $plat = new Plat($data_line['Nom'], $data_line['Description'], $data_line['Image']);
-                        $plat->setIdSt($data_line['Id']);
+                        $plat->setIdSt($data_line['id']);
+                        $plat->setIdCategorieSt($data_line['Id_Categorie']);
+                        $values = $plat;
+                    }
+                    return $values;
+                } catch (PDOException $exc) {
+                    $this->error_text = $exc;
+                    $this->error_number = 956710000;
+                    $this->error_log->addError(956710000, "plats_chaud", $exc);
+                    return null;
+                }
+            } else {
+                $this->error_text = $this->sgbd->error_text();
+                $this->error_number = $this->sgbd->error_number();
+                $this->error_log->addError($this->sgbd->error_number(), "plats_chaud", $this->sgbd->error_text());
+                return null;
+            }
+        }
+
+        public function all_plats():?array {
+            if($this->sgbd->error_number() == 0) {
+                try {
+                    $values = [];
+                    $res = $this->sgbd->prepare("SELECT * FROM plats LEFT JOIN categories ON plats.Id_Categorie = categories.Id_Categorie");
+                    $res->execute();
+                    $data = $res->fetchAll(PDO::FETCH_OBJ);
+                    foreach ($data as $valueLine) {
+                        $data_line = [];
+                        foreach ($valueLine as $key => $value){
+                            $data_line[$key] = $value;
+                        }
+                        $plat = new Plat($data_line['Nom'], $data_line['Description'], $data_line['Image']);
+                        $plat->setIdSt($data_line['id']);
+                        $plat->setIdCategorieSt($data_line['Id_Categorie']);
                         array_push($values, $plat);
                     }
                     return $values;
@@ -88,6 +123,7 @@ if (!class_exists('SGBD_Plats')) {
                         }
                         $plat = new Plat($data_line['Nom'], $data_line['Description'], $data_line['Image']);
                         $plat->setIdSt($data_line['id']);
+                        $plat->setIdCategorieSt($data_line['Id_Categorie']);
                         array_push($values, $plat);
                     }
                     return $values;
@@ -105,6 +141,65 @@ if (!class_exists('SGBD_Plats')) {
             }
 
         }
+
+        public function addPlat(int $id, ?string $name, ?string $image, ?string $description, int $categorie, int $id_user):bool {
+            if($this->sgbd->error_number() == 0) {
+                try {
+                    $plat = new Plat($name, $image,$description);
+                    $plat->setIdCategorie($categorie);
+                    if($i = 0) {
+                        $sql = "INSERT INTO plats(Nom, Description, Image, Id_Categorie) VALUES (:Nom,:Description,:Image,:Id_Categorie)";
+                        if(!empty($image)) {
+                            $sql = "INSERT INTO plats(Nom, Description, Id_Categorie) VALUES (:Nom,:Description,:Id_Categorie)";
+                        }
+                        $res = $this->sgbd->prepare($sql);
+                        $res->execute(array(
+                            ':name' => $name,
+                            ':Description' => $image,
+                            ':Image' => $description,
+                            ':Id_Categorie' => $categorie
+                        ));
+                        $last_id = $dbh->lastInsertId();
+                        $plat->setIdSt($last_id);
+                        $jeton = $plat->jeton();
+                        $resUd = $this->sgbd->prepare("UPDATE plats SET jeton=:jeton WHERE id=:id");
+                        $resUd->execute(array(
+                            ':id' => $last_id,
+                            ':jeton' => $jeton
+                        ));
+                        return true;
+                    } else if($i > 0) {
+                        $plat->setIdSt($id);
+                        $jeton = $plat->jeton();
+                        $res = $this->sgbd->prepare("UPDATE plats SET Nom=:name,Description=:Description,Image=:Image,Id_Categorie=:Id_Categorie,jeton=:jeton WHERE id=:id");
+                        $res->execute(array(
+                            ':name' => $name,
+                            ':Description' => $image,
+                            ':Image' => $description,
+                            ':Id_Categorie' => $categorie,
+                            ':id' => $id,
+                            ':jeton' => $jeton
+                        ));
+                        $res->execute();
+                        return true;
+                    }
+                } catch (PDOException $exc) {
+                    $this->error_text = $exc;
+                    $this->error_number = 956710001;
+                    $this->error_log->addError(956710001, "plats_chaud", $exc);
+                    return array();
+                }
+            } else {
+                $this->error_text = $this->sgbd->error_text();
+                $this->error_number = $this->sgbd->error_number();
+                $this->error_log->addError($this->sgbd->error_number(), "plats_chaud", $this->sgbd->error_text());
+                return array();
+            }
+            return false;
+/*
+INSERT INTO plats(Nom, Description, Image, Id_Categorie) VALUES ('[value-2]','[value-3]','[value-4]','[value-5]')
+*/
+        }
         
         public function makis():?array {
             if($this->sgbd->error_number() == 0) {
@@ -121,6 +216,7 @@ if (!class_exists('SGBD_Plats')) {
                         }
                         $plat = new Plat($data_line['Nom'], $data_line['Description'], $data_line['Image']);
                         $plat->setIdSt($data_line['id']);
+                        $plat->setIdCategorieSt($data_line['Id_Categorie']);
                         array_push($values, $plat);
                     }
                     return $values;

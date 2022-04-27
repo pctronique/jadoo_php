@@ -121,6 +121,10 @@ if (!class_exists('User')) {
                         return Pass_Crypt::verify($pass, $this->pass);
                 }
 
+                public function jeton():?string {
+                        return md5($this->getId().$this->name.$this->firstname.$this->email.$this->login);
+                }
+
         }
         
 }

@@ -95,6 +95,10 @@ if (!class_exists('Plat')) {
                 $this->user = $user;
         }
 
+        public function jeton():?string {
+                return md5($this->getId().$this->nom.$this->description.$this->image.$this->idCategorie);
+        }
+
     }
 }
 

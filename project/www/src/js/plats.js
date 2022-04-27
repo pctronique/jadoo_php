@@ -1,3 +1,15 @@
+function editPlat(e) {
+
+}
+
+function deletePlat(e) {
+  
+}
+
+function tabEditDelClick() {
+
+}
+
 /*
 Recuperation d'une image pour afficher dans le general
 event (event) : evenement d'ecoute

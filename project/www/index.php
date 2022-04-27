@@ -12,6 +12,8 @@ if(!empty($_GET) && array_key_exists("pg", $_GET)) {
 if($pg == "admin") {
 } else if($pg == "delete_msg") {
   include_once dirname(__FILE__) . '/src/exec/delete_msg.php';
+} else if($pg == "add_plat") {
+  include_once dirname(__FILE__) . '/src/exec/addplat_post.php';
 } else if($pg == "conn") {
   include_once dirname(__FILE__) . '/src/exec/connexion.php';
 } else if($pg == "deconn") {
@@ -22,7 +24,7 @@ if($pg == "admin") {
   include_once dirname(__FILE__) . '/src/pages/accueil_post.php';
 }
 
-if($pg != "msgpost" && $pg != "conn" && $pg != "deconn" && $pg != "delete_msg") {
+if($pg != "msgpost" && $pg != "conn" && $pg != "deconn" && $pg != "delete_msg" && $pg != "add_plat") {
 ?>
 
 <!DOCTYPE html>
@@ -95,7 +97,8 @@ if($pg != "msgpost" && $pg != "conn" && $pg != "deconn" && $pg != "delete_msg") 
                   <li>
                     <a href="./?pg=admin&admin=utilisateur">Utilisateur</a>
                   </li>
-                  <?php /*
+                  <?php
+                   /*
                   <!--<li>
                     <a href="./?pg=admin&admin=admin">Admin</a>
                   </li>
