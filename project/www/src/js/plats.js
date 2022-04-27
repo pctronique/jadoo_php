@@ -26,13 +26,14 @@ function loadFiles(event) {
     }
 }
 
-function annuler_plat() {
+function annuler_plat(e) {
+    e.preventDefault();
     let preview = document.getElementById("img-plat");
     preview.file = null;
     preview.src = "./src/imgs/add_picture_235.svg";
     document.getElementById('categorie').value = "";
     document.getElementById('name').value = "";
-    document.getElementById('description').innerHTML = "";
+    document.getElementById('description').value = "";
 }
 
 /*

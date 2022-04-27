@@ -69,6 +69,7 @@
 
   .submenu {
     display: block;
+    background-color: unset;
     margin-top: -3px;
     margin-left: 143px;
   }

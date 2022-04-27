@@ -1,8 +1,16 @@
+/**********/
+/** body **/
+/**********/
+body {
+    height: 81vh;
+}
+
 #admin {
     background: url("./../imgs/illustration_commander.jpg") no-repeat;
     background-size: cover;
     background-position: center;
     width: 100%;
+    height: 85%;
     margin-top: 73px;
     padding: 20px;
 }
@@ -19,7 +27,7 @@
     overflow: auto;
     align-items: stretch;
     flex-direction: column;
-    height: 83vh;
+    height: 60vh;
 }
 
 .msg {
@@ -44,6 +52,7 @@
 
 #connexion {
     width: 100%;
+    height: 85%;
     margin-top: 73px;
     padding: 20px;
 }
@@ -63,6 +72,7 @@
 }
 
 #connexion input {
+    font-family: "poppins-regular";
   display: flex;
   color: black;
   align-items: center;
@@ -84,11 +94,13 @@
 }
 
 #connexion label {
+    font-family: "poppins-regular";
     text-align: right;
     padding-right: 10px;
 }
 
 #connexion form label {
+    font-family: "poppins-regular";
     text-align: right;
     padding-right: 10px;
 }
@@ -146,13 +158,14 @@
     background-color: white;
     border-radius: 20px;
     box-shadow: 2px 14px 14px #f3f3f3;
+    padding-top: 38px;
     margin-top: 20px;
     margin-left: auto;
     margin-right: auto;
-    align-items: center;
 }
 
 input, textarea, select {
+    font-family: "poppins-regular";
   display: flex;
   color: black;
   align-items: center;
@@ -178,6 +191,7 @@ input:hover, textarea:hover, select:hover {
 }
 
 label {
+    font-family: "poppins-regular";
     text-align: right;
     padding-right: 10px;
 }
@@ -206,6 +220,10 @@ input[type="file"] {
 
 #bt_valide_annule .bt_plat {
     margin: 5px;
+}
+
+footer {
+    margin-bottom: 0px;
 }
 
 /************************************/
