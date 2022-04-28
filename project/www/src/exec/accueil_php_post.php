@@ -39,7 +39,7 @@ $sgbd_message = new SGBD_Messages();
 
     setcookie("info_message", $json, time()+900);
 
-    header('Location: ./../../#section_contact');
+    header('Location: ./#section_contact');
     exit();
   }
  ?>

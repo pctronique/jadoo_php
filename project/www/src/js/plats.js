@@ -57,4 +57,4 @@ function img_add() {
 
 document.getElementById('fileToUpload').addEventListener('change', loadFiles);
 document.getElementById('img-plat').addEventListener('click', img_add);
-document.getElementById('annuler_plat').addEventListener('click', annuler_plat);
+//document.getElementById('annuler_plat').addEventListener('click', annuler_plat);

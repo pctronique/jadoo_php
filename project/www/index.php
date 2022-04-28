@@ -14,6 +14,8 @@ if($pg == "admin") {
   include_once dirname(__FILE__) . '/src/exec/delete_msg.php';
 } else if($pg == "add_plat") {
   include_once dirname(__FILE__) . '/src/exec/addplat_post.php';
+} else if($pg == "find") {
+  include_once dirname(__FILE__) . '/src/exec/recherche_plat_php_post.php';
 } else if($pg == "conn") {
   include_once dirname(__FILE__) . '/src/exec/connexion.php';
 } else if($pg == "deconn") {
@@ -21,10 +23,10 @@ if($pg == "admin") {
 } else if($pg == "msgpost") {
   include_once dirname(__FILE__) . '/src/exec/formulaire_post.php';
 } else {
-  include_once dirname(__FILE__) . '/src/pages/accueil_post.php';
+  include_once dirname(__FILE__) . '/src/exec/accueil_php_post.php';
 }
 
-if($pg != "msgpost" && $pg != "conn" && $pg != "deconn" && $pg != "delete_msg" && $pg != "add_plat") {
+if($pg != "msgpost" && $pg != "conn" && $pg != "deconn" && $pg != "delete_msg" && $pg != "add_plat" && $pg != "find") {
 ?>
 
 <!DOCTYPE html>

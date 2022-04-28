@@ -17,17 +17,23 @@ if($session_user->isConnected()) {
     $sgbd_plats = new SGBD_Plats();
     $sgbd_users = new SGBD_Users();
 
+    $find = "";
+    if(!empty($_GET) && array_key_exists('find', $_GET)) {
+        $find = $_GET['find'];
+    }
+
     $all_cate = $sgbd_plats->all_categorie();
-    $all_plats = $sgbd_plats->all_plats();
+    $all_plats = $sgbd_plats->all_plats($find);
     $src_img = "./src/imgs/add_picture_235.svg";
     $name = "";
     $description = "";
     $categorie = 0;
+    $classmsg = "msg_valide";
 
     if(!empty($id_plat)) {
         $one_plat = $sgbd_plats->one_plats($id_plat);
         if(!empty($one_plat)) {
-            $src_img = "./data/images/".$one_plat->getImage();
+            $src_img = "./data/images/plat/".$one_plat->getImage();
             $categorie = $one_plat->getIdCategorie();
             $name = $one_plat->getNom();
             $description = $one_plat->getDescription();
@@ -35,6 +41,20 @@ if($session_user->isConnected()) {
             $id_plat = 0;
         }
     }
+
+    $msg = "";
+    $error = false;
+    if(!empty($_COOKIE) && array_key_exists("info_plat", $_COOKIE)) {
+        $obj = json_decode($_COOKIE['info_plat']);
+        $msg = $obj->msg;
+        $error = ($obj->error == 1);
+        if($error) {
+            $classmsg = "msg_error";
+        }
+        setcookie("info_plat", "", time()-3600);
+    }
+
+
     ?>
 
     <section id="admin" class="section_plat">
@@ -56,15 +76,16 @@ if($session_user->isConnected()) {
             <label>Description</label><textarea id="description" name="description"><?php echo $description ?></textarea>
             <figure id="bt_valide_annule" class="two_column_button">
                 <button type="sumit" id="validate_plat" class="button_bleu bt_plat">Valider</button>
-                <button type="sumit" id="annuler_plat" class="button_gris bt_plat">Annuler</button>
+                <a href="./?pg=admin" id="annuler_plat" class="button_gris bt_plat">Annuler</a>
             </figure>
         </form>
         <div id="find_plat">
-            <figure id="edit_find">
+            <p class="<?php echo $classmsg; ?>"><?php echo $msg ?></p>
+            <form id="edit_find" action="./?pg=find" method="post">
                 <label>Rechercher</label>
                 <input type="text" id="rechercher" name="rechercher" />
-                <button type="sumit" id="bt_find"  class="button_bleu bt_plat">Rechercher</button>
-              </figure>
+                <button type="sumit" id="bt_find" class="button_bleu bt_plat">Rechercher</button>
+            </form>
             <table>
         <thead>
           <tr>

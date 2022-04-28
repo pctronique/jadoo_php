@@ -2,7 +2,11 @@
 /project/www/src/config/config.php
 /project/www/config/
 /project/www/tmp/
-/project/www/data/img_tmp_*
+/project/www/data/images/img_tmp_*
+/project/www/data/images/plat/img_tmp_*
+/project/www/data/images/maki/img_tmp_*
+/project/www/data/images/maki_tmp_*
+/project/www/data/images/plat_tmp_*
 /project/www/errors.log
 /projecttmp
 /.vscode

@@ -76,12 +76,20 @@ if (!class_exists('SGBD_Plats')) {
             }
         }
 
-        public function all_plats():?array {
+        public function all_plats(?string $find = null):?array {
             if($this->sgbd->error_number() == 0) {
                 try {
                     $values = [];
-                    $res = $this->sgbd->prepare("SELECT * FROM plats LEFT JOIN categories ON plats.Id_Categorie = categories.Id_Categorie");
-                    $res->execute();
+                    $sql = "SELECT * FROM plats LEFT JOIN categories ON plats.Id_Categorie = categories.Id_Categorie ".
+                    " ORDER BY id DESC";
+                    $data = array();
+                    if(!empty($find)) {
+                        $sql = "SELECT * FROM plats LEFT JOIN categories ON plats.Id_Categorie = categories.Id_Categorie ".
+                        " WHERE Nom LIKE :find OR Description LIKE :find ORDER BY id DESC";
+                        $data = array(":find" => '%'.$find.'%');
+                    }
+                    $res = $this->sgbd->prepare($sql);
+                    $res->execute($data);
                     $data = $res->fetchAll(PDO::FETCH_OBJ);
                     foreach ($data as $valueLine) {
                         $data_line = [];
@@ -147,19 +155,25 @@ if (!class_exists('SGBD_Plats')) {
                 try {
                     $plat = new Plat($name, $image,$description);
                     $plat->setIdCategorie($categorie);
-                    if($i = 0) {
+                    if($id == 0) {
                         $sql = "INSERT INTO plats(Nom, Description, Image, Id_Categorie) VALUES (:Nom,:Description,:Image,:Id_Categorie)";
-                        if(!empty($image)) {
+                        $tab_data = array(
+                            ':Nom' => $name,
+                            ':Description' => $description,
+                            ':Image' => $image,
+                            ':Id_Categorie' => $categorie
+                        );
+                        if(empty($image)) {
                             $sql = "INSERT INTO plats(Nom, Description, Id_Categorie) VALUES (:Nom,:Description,:Id_Categorie)";
+                            $tab_data = array(
+                                ':Nom' => $name,
+                                ':Description' => $description,
+                                ':Id_Categorie' => $categorie
+                            );
                         }
                         $res = $this->sgbd->prepare($sql);
-                        $res->execute(array(
-                            ':name' => $name,
-                            ':Description' => $image,
-                            ':Image' => $description,
-                            ':Id_Categorie' => $categorie
-                        ));
-                        $last_id = $dbh->lastInsertId();
+                        $res->execute($tab_data);
+                        $last_id = $this->sgbd->lastInsertId();
                         $plat->setIdSt($last_id);
                         $jeton = $plat->jeton();
                         $resUd = $this->sgbd->prepare("UPDATE plats SET jeton=:jeton WHERE id=:id");
@@ -168,18 +182,30 @@ if (!class_exists('SGBD_Plats')) {
                             ':jeton' => $jeton
                         ));
                         return true;
-                    } else if($i > 0) {
+                    } else if($id > 0) {
                         $plat->setIdSt($id);
                         $jeton = $plat->jeton();
-                        $res = $this->sgbd->prepare("UPDATE plats SET Nom=:name,Description=:Description,Image=:Image,Id_Categorie=:Id_Categorie,jeton=:jeton WHERE id=:id");
-                        $res->execute(array(
+                        $sql = "UPDATE plats SET Nom=:name,Description=:Description,Image=:Image,Id_Categorie=:Id_Categorie,jeton=:jeton WHERE id=:id";
+                        $tab_data = array(
                             ':name' => $name,
-                            ':Description' => $image,
-                            ':Image' => $description,
+                            ':Description' => $description,
+                            ':Image' => $image,
                             ':Id_Categorie' => $categorie,
                             ':id' => $id,
                             ':jeton' => $jeton
-                        ));
+                        );
+                        if(empty($image)) {
+                            $sql = "UPDATE plats SET Nom=:name,Description=:Description,Id_Categorie=:Id_Categorie,jeton=:jeton WHERE id=:id";
+                            $tab_data = array(
+                                ':name' => $name,
+                                ':Description' => $description,
+                                ':Id_Categorie' => $categorie,
+                                ':id' => $id,
+                                ':jeton' => $jeton
+                            );
+                        }
+                        $res = $this->sgbd->prepare($sql);
+                        $res->execute($tab_data);
                         $res->execute();
                         return true;
                     }
@@ -187,18 +213,13 @@ if (!class_exists('SGBD_Plats')) {
                     $this->error_text = $exc;
                     $this->error_number = 956710001;
                     $this->error_log->addError(956710001, "plats_chaud", $exc);
-                    return array();
                 }
             } else {
                 $this->error_text = $this->sgbd->error_text();
                 $this->error_number = $this->sgbd->error_number();
                 $this->error_log->addError($this->sgbd->error_number(), "plats_chaud", $this->sgbd->error_text());
-                return array();
             }
             return false;
-/*
-INSERT INTO plats(Nom, Description, Image, Id_Categorie) VALUES ('[value-2]','[value-3]','[value-4]','[value-5]')
-*/
         }
         
         public function makis():?array {

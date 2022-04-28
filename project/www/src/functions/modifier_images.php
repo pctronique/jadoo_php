@@ -5,6 +5,19 @@ if (!function_exists('modifier_images_folder')) {
         return ($type == IMAGETYPE_JPEG || $type == IMAGETYPE_PNG || $type == IMAGETYPE_GIF);
     }
 
+    function ext_type_image($type) {
+            if( $type == IMAGETYPE_JPEG ) {
+                return ".jpg";
+            }
+            elseif( $type == IMAGETYPE_PNG ) {
+                return ".png";
+            }
+            elseif( $type == IMAGETYPE_GIF ) {
+                return ".gif";
+            }
+            return ".null";
+    }
+
     function save_image($filename, $new_name, $type) {
         if ($filename !== FALSE) {
             if( $type == IMAGETYPE_JPEG ) {
@@ -71,7 +84,7 @@ if (!function_exists('modifier_images_folder')) {
     }
 
 
-    function modifier_image($filename, $name_file_save, $folder_save, $width_max, $height_max) {
+    function modifier_image($filename, $folder_save, $name_file_save, $width_max, $height_max) {
         list($width, $height, $type) = getimagesize($filename);
         if(type_valide($type)) {
             header('Content-Type: '.$type);

@@ -9,35 +9,36 @@ if($session_user->isConnected()) {
     include_once dirname(__FILE__) . '/../class/SGBD_Plats.php';
 
     $sgbd_plats = new SGBD_Plats();
-    var_dump($_FILES);
-    echo "<br />";
-    $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
-    var_dump($check);
-    echo $_FILES["fileToUpload"]['name']."<br />";
-    if($check !== false) {
-        echo "File is an image - " . $check["mime"] . ".";
-        $uploadOk = 1;
-      } else {
-        echo "File is not an image.";
-        $uploadOk = 0;
-      }
-    /*
-    if(!empty($_POST) && array_key_exists('id_plat', $_POST) && array_key_exists('fileToUpload', $_POST) && 
+
+    
+    if(!empty($_POST) && array_key_exists('id_plat', $_POST) && 
         array_key_exists('categorie', $_POST) && array_key_exists('name', $_POST) && 
         array_key_exists('description', $_POST)) {
 
+        $name_img_plat = "";
+        $message_display = ['error' => 0, 'msg' => "Enregistrement réussi."];
+        if(!empty($_FILES) && !empty($_FILES["fileToUpload"]["name"])) {
+            list($width, $height, $type) = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+        
+            if(type_valide($type)) {
+                $name_img_plat = "img_tmp_".time().ext_type_image($type);
+                modifier_image($_FILES["fileToUpload"]["tmp_name"], DATA_FOLDER_IMG."plat/", $name_img_plat, 320, 320);
+                modifier_image($_FILES["fileToUpload"]["tmp_name"], DATA_FOLDER_IMG."maki/", $name_img_plat, 150, 150);
+            }
+        }
         if($sgbd_plats->addPlat(string_number($_POST['id_plat']), 
-                $_POST['name'], $_POST[''], 
-                $description, $categorie, 
-                string_number($id_user))) {
+                $_POST['name'], $name_img_plat, 
+                $_POST['description'], $_POST['categorie'], 
+                string_number($_SESSION['id_user']))) {
             echo "1";
         } else {
-            echo $$sgbd_plats->information();
+            echo "Une erreur c'est produit lors de l'enregistrement du produit.";
+            $message_display = ['error' => 1, 'msg' => "Une erreur c'est produit lors de l'enregistrement du produit."];
         }
-
-    } else {
-        echo "Vous ne pouvez pas utiliser cette page.";
-    }*/
+        $json = json_encode($message_display);
+        setcookie("info_plat", $json, time()+900);
+        header('Location: ./?pg=admin');
+    }
 } else {
     echo "Vous ne pouvez pas utiliser cette page.";
 }

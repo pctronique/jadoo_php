@@ -79,7 +79,7 @@ $sgbd_plats = new SGBD_Plats();
               <article class="plat">
                 <h6>plat</h6>
                 <img
-                  src="data/images/<?php echo $plat->getImage() ?>"
+                  src="data/images/plat/<?php echo $plat->getImage() ?>"
                   alt="Image <?php echo $plat->getNom() ?>"
                 />
                 <p class="plat_text">
@@ -111,7 +111,7 @@ $sgbd_plats = new SGBD_Plats();
             <article class="maki">
               <h6>maki</h6>
               <img
-                src="data/images/<?php echo $plat->getImage() ?>"
+                src="data/images/maki/<?php echo $plat->getImage() ?>"
                 alt="Image <?php echo $plat->getNom() ?>"
               />
               <p>
