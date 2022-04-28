@@ -16,12 +16,13 @@ if (!class_exists('ConfigIni')) {
     include_once dirname(__FILE__) . '/SGBD_crypt.php';
 
     /**
-     * Description of ConfigIni
+     * Pour contenir toutes les configuration de la page.
      *
      * @author pctronique
      */
     class ConfigIni {
 
+        // les variables de la classe.
         private $type;
         private $server;
         private $port;

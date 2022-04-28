@@ -158,17 +158,17 @@ if (!class_exists('SGBD_Plats')) {
                     if($id == 0) {
                         $sql = "INSERT INTO plats(Nom, Description, Image, Id_Categorie) VALUES (:Nom,:Description,:Image,:Id_Categorie)";
                         $tab_data = array(
-                            ':Nom' => $name,
-                            ':Description' => $description,
-                            ':Image' => $image,
-                            ':Id_Categorie' => $categorie
+                            ':Nom' => htmlspecialchars(stripslashes(trim($name))),
+                            ':Description' => htmlspecialchars(stripslashes(trim($description))),
+                            ':Image' => htmlspecialchars(stripslashes(trim($image))),
+                            ':Id_Categorie' => htmlspecialchars(stripslashes(trim($categorie)))
                         );
                         if(empty($image)) {
                             $sql = "INSERT INTO plats(Nom, Description, Id_Categorie) VALUES (:Nom,:Description,:Id_Categorie)";
                             $tab_data = array(
-                                ':Nom' => $name,
-                                ':Description' => $description,
-                                ':Id_Categorie' => $categorie
+                                ':Nom' => htmlspecialchars(stripslashes(trim($name))),
+                                ':Description' => htmlspecialchars(stripslashes(trim($description))),
+                                ':Id_Categorie' => htmlspecialchars(stripslashes(trim($categorie)))
                             );
                         }
                         $res = $this->sgbd->prepare($sql);
@@ -187,21 +187,21 @@ if (!class_exists('SGBD_Plats')) {
                         $jeton = $plat->jeton();
                         $sql = "UPDATE plats SET Nom=:name,Description=:Description,Image=:Image,Id_Categorie=:Id_Categorie,jeton=:jeton WHERE id=:id";
                         $tab_data = array(
-                            ':name' => $name,
-                            ':Description' => $description,
-                            ':Image' => $image,
-                            ':Id_Categorie' => $categorie,
-                            ':id' => $id,
-                            ':jeton' => $jeton
+                            ':name' => htmlspecialchars(stripslashes(trim($name))),
+                            ':Description' => htmlspecialchars(stripslashes(trim($description))),
+                            ':Image' => htmlspecialchars(stripslashes(trim($image))),
+                            ':Id_Categorie' => htmlspecialchars(stripslashes(trim($categorie))),
+                            ':id' => htmlspecialchars(stripslashes(trim($id))),
+                            ':jeton' => htmlspecialchars(stripslashes(trim($jeton)))
                         );
                         if(empty($image)) {
                             $sql = "UPDATE plats SET Nom=:name,Description=:Description,Id_Categorie=:Id_Categorie,jeton=:jeton WHERE id=:id";
                             $tab_data = array(
-                                ':name' => $name,
-                                ':Description' => $description,
-                                ':Id_Categorie' => $categorie,
-                                ':id' => $id,
-                                ':jeton' => $jeton
+                                ':name' => htmlspecialchars(stripslashes(trim($name))),
+                                ':Description' => htmlspecialchars(stripslashes(trim($description))),
+                                ':Id_Categorie' => htmlspecialchars(stripslashes(trim($categorie))),
+                                ':id' => htmlspecialchars(stripslashes(trim($id))),
+                                ':jeton' => htmlspecialchars(stripslashes(trim($jeton)))
                             );
                         }
                         $res = $this->sgbd->prepare($sql);

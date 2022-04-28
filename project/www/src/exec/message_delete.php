@@ -1,7 +1,7 @@
 <?php 
 include_once dirname(__FILE__) . '/../class/User_Session.php';
 include_once dirname(__FILE__) . '/../functions/main_function.php';
-include_once dirname(__FILE__) . '/../class/SGBD_Messages.php';
+include_once dirname(__FILE__) . '/../functions/SGBD_Messages.php';
 
 $session_user = new User_Session();
 

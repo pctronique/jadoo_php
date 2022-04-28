@@ -77,6 +77,27 @@ if (!class_exists('SGBD_Messages')) {
             }
         }
 
+        public function supprimer(int $id): bool {
+            if($this->sgbd->error_number() == 0) {
+                try {
+                    $res = $this->sgbd->prepare("DELETE FROM messages WHERE Id=:id_message");
+                    $res->bindParam(':id_message', $id);
+                    $res->execute();
+                    return true;
+                } catch (PDOException $exc) {
+                    $this->error_text = $exc;
+                    $this->error_number = 956710000;
+                    $this->error_log->addError(956710000, "plats_chaud", $exc);
+                    return false;
+                }
+            } else {
+                $this->error_text = $this->sgbd->error_text();
+                $this->error_number = $this->sgbd->error_number();
+                $this->error_log->addError($this->sgbd->error_number(), "plats_chaud", $this->sgbd->error_text());
+                return false;
+            }
+        }
+
         public function lu(int $id_message):bool {
             if($this->sgbd->error_number() == 0) {
                 try {

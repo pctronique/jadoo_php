@@ -109,6 +109,44 @@ if (!class_exists('SGBD_Users')) {
             return null;
         }
 
+        public function modifierUser(int $id, ?string $jeton, ?string $name, ?string $firstname, ?string $login, ?string $email):bool {
+            if ($this->sgbd->error_number() == 0) {
+                try {
+                    $user = new User(
+                        utf8_encode(htmlspecialchars(stripslashes(trim($name)))),
+                        utf8_encode(htmlspecialchars(stripslashes(trim($firstname)))),
+                        utf8_encode(htmlspecialchars(stripslashes(trim($email)))),
+                        utf8_encode(htmlspecialchars(stripslashes(trim($login))))
+                    );
+                    $user->setIdSt($id);
+                    $values = null;
+                    $res = $this->sgbd->prepare("UPDATE user SET name=:name,firstname=:firstname,email=:email,login=:login WHERE jeton=:jeton AND id_user=:id_user");
+                    if($res->execute(array(
+                        ':name' => htmlspecialchars(stripslashes(trim($name))),
+                        ':firstname' => htmlspecialchars(stripslashes(trim($firstname))),
+                        ':email' => htmlspecialchars(stripslashes(trim($email))),
+                        ':login' => htmlspecialchars(stripslashes(trim($login))),
+                        ':jeton' => htmlspecialchars(stripslashes(trim($jeton))),
+                        ':id_user' => $id))) {
+                        $res = $this->sgbd->prepare("UPDATE user SET jeton=:jeton  WHERE id_user=:id_user");
+                        $res->execute(array(
+                        ':jeton' => htmlspecialchars(stripslashes(trim($jeton))),
+                        ':id_user' => $id));
+                    }
+                    return true;
+                } catch (PDOException $exc) {
+                    $this->error_text = $exc;
+                    $this->error_number = 956710000;
+                    $this->error_log->addError(956710000, "plats_chaud", $exc);
+                }
+            } else {
+                $this->error_text = $this->sgbd->error_text();
+                $this->error_number = $this->sgbd->error_number();
+                $this->error_log->addError($this->sgbd->error_number(), "plats_chaud", $this->sgbd->error_text());
+            }
+            return false;
+        }
+
         public function userId(int $id, ?string $jeton): ?User {
             if ($this->sgbd->error_number() == 0) {
                 try {
@@ -124,18 +162,18 @@ if (!class_exists('SGBD_Users')) {
                         foreach ($valueLine as $key => $value) {
                             $data_line[$key] = $value;
                         }
-                            $user = new User(
-                                utf8_encode($data_line['name']),
-                                utf8_encode($data_line['firstname']),
-                                utf8_encode($data_line['email']),
-                                utf8_encode($data_line['login'])
-                            );
-                            $user->setPass_hash($data_line['pass']);
-                            $user->setJeton($data_line['jeton']);
-                            $user->setIdSt($data_line['id_user']);
-                            $user->setDateSt($data_line['date']);
-                            $user->setAdmin($this->testAdmin($data_line['name_admin']));
-                            $values = $user;
+                        $user = new User(
+                            utf8_encode($data_line['name']),
+                            utf8_encode($data_line['firstname']),
+                            utf8_encode($data_line['email']),
+                            utf8_encode($data_line['login'])
+                        );
+                        $user->setPass_hash($data_line['pass']);
+                        $user->setJeton($data_line['jeton']);
+                        $user->setIdSt($data_line['id_user']);
+                        $user->setDateSt($data_line['date']);
+                        $user->setAdmin($this->testAdmin($data_line['name_admin']));
+                        $values = $user;
                     }
                     return $values;
                 } catch (PDOException $exc) {

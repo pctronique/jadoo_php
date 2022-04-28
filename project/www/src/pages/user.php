@@ -8,6 +8,7 @@ if($session_user->isConnected()) {
     include_once dirname(__FILE__) . '/../class/SGBD_Users.php';
 
     $sgbd_Users = new SGBD_Users();
+    $id = 0;
     $name = "";
     $prenom = "";
     $login = "";
@@ -22,14 +23,14 @@ if($session_user->isConnected()) {
     ?>
 
     <section id="admin">
-        <form id="user">
+        <form id="user" action="./?pg=modif_user" method="post">
             <label>Nom</label><input type="text" id="name" name="name" value="<?php echo $name ?>" />
             <label>Prénom</label><input type="text" id="firstname" name="firstname" value="<?php echo $prenom ?>" />
             <label>Login</label><input type="text" id="login" name="login" value="<?php echo $login ?>" />
             <label>email</label><input type="text" id="email" name="email" value="<?php echo $email ?>" />
             <button type="sumit" id="validate_user" class="button_bleu two_column_button">Valider</button>
         </form>
-        <form id="pass">
+        <form id="pass" action="./?pg=modif_pass" method="post">
             <label>Ancien mot de passe</label><input type="password" id="pass_old" name="pass_old" autocomplete="on" />
             <label>Nouveau mot de passe</label><input type="password" id="pass_new_1" name="pass_new_1" autocomplete="on" />
             <label>Répéter le nouveau mot de passe</label><input type="password" id="pass_new_2" name="pass_new_2" autocomplete="on" />
