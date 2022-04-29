@@ -1,3 +1,7 @@
+/**
+ * pour la suppression d'un message
+ * @param {*} e 
+ */
 function delete_msg(e) {
     let id = e.target.id.split("_", 3)[2];
     let colorMsg = document.getElementById("msg_"+id).style.backgroundColor;
@@ -16,6 +20,9 @@ function delete_msg(e) {
     }
 }
 
+/**
+ * recuperation des boutons pour la suppression d'une image
+ */
 let deletes_msg = document.querySelectorAll(".img_delete");
 deletes_msg.forEach(element => {
     element.addEventListener('click', delete_msg);

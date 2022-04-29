@@ -1,11 +1,25 @@
 <?php
+// verifier qu'on n'a pas deja creer la fonction
 if (!function_exists('modifier_images_folder')) {
 
-    function type_valide($type) {
+    /**
+     * Pour valider le type du fichier, qui soit bien une image.
+     *
+     * @param integer $type : le type de format.
+     * @return boolean c'est bien une image.
+     */
+    function type_valide(int $type): bool {
         return ($type == IMAGETYPE_JPEG || $type == IMAGETYPE_PNG || $type == IMAGETYPE_GIF);
     }
 
-    function ext_type_image($type) {
+    // 
+    /**
+     * Retourne l'extension du fichier par rapport a son type de format.
+     *
+     * @param integer $type : le type de format.
+     * @return string|null retourne l'extention du fichier.
+     */
+    function ext_type_image(int $type):?string {
             if( $type == IMAGETYPE_JPEG ) {
                 return ".jpg";
             }
@@ -17,8 +31,16 @@ if (!function_exists('modifier_images_folder')) {
             }
             return ".null";
     }
-
-    function save_image($filename, $new_name, $type) {
+    
+    /**
+     * sauvegarder une image par rapport a son type de format
+     *
+     * @param GdImage|null $filename : l'image a sauvegarder
+     * @param string|null $new_name : son nouveau nom
+     * @param integer $type : le type de format.
+     * @return void ne retourne rien
+     */
+    function save_image($filename, ?string $new_name, int $type): void {
         if ($filename !== FALSE) {
             if( $type == IMAGETYPE_JPEG ) {
                 imagejpeg($filename, $new_name);
@@ -32,8 +54,15 @@ if (!function_exists('modifier_images_folder')) {
             imagedestroy($filename);
         }
     }
-
-    function type_image_create($filename, $type) {
+    
+    /**
+     * Creation d'une image a partir de son type de format.
+     *
+     * @param string|null $filename : le nom du fichier
+     * @param integer $type : son nouveau nom
+     * @return void retourne l'image
+     */
+    function type_image_create(?string $filename, int $type) {
         if ($filename !== FALSE) {
             if( $type == IMAGETYPE_JPEG ) {
                 return imagecreatefromjpeg($filename);
@@ -47,8 +76,16 @@ if (!function_exists('modifier_images_folder')) {
             return null;
         }
     }
-
-    function image_resize($filename, $width_max, $height_max) {
+    
+    /**
+     * redimension une image 
+     *
+     * @param string|null $filename le nom de l'image
+     * @param integer $width_max : la largeur maximale
+     * @param integer $height_max : la hauteur maximale
+     * @return void retourne l'image de celui ci
+     */
+    function image_resize(?string $filename, int $width_max, int $height_max) {
         list($width, $height, $type) = getimagesize($filename);
         $newwidth = $width;
         $newheight = $height;
@@ -72,19 +109,29 @@ if (!function_exists('modifier_images_folder')) {
         if($position_y < 0) {
             $position_y = 0;
         }
-        // Load
+        
+        // creation de l'image
         $thumb = imagecreatetruecolor($newwidth, $newheight);
         $source = type_image_create($filename, $type);
 
-        // Resize
+        // redimension l'image
         imagecopyresized($thumb, $source, 0, 0, 0, 0, $newwidth, $newheight, $width, $height);
         $thumb_final = imagecrop($thumb, ['x' => $position_x, 'y' => $position_y, 'width' => $width_max, 'height' => $height_max]);
 
         return $thumb_final;
     }
 
-
-    function modifier_image($filename, $folder_save, $name_file_save, $width_max, $height_max) {
+    /**
+     * Modification et sauvegarde de l'image.
+     *
+     * @param string|null $filename :  le nom de l'image
+     * @param string|null $folder_save :  le dossier ou sauvegarder
+     * @param string|null $name_file_save : le nom de la sauvegarde
+     * @param integer $width_max :  largeur max
+     * @param integer $height_max :  hauteur max
+     * @return void ne retourne rien
+     */
+    function modifier_image(?string $filename, ?string $folder_save, ?string $name_file_save, int $width_max, int $height_max):void {
         list($width, $height, $type) = getimagesize($filename);
         if(type_valide($type)) {
             header('Content-Type: '.$type);
@@ -93,7 +140,16 @@ if (!function_exists('modifier_images_folder')) {
         }
     }
 
-    function modifier_images_folder($file, $folder_save, $width_max, $height_max) {
+    /**
+     * Sauvegarder des images a partir d'un dossier
+     *
+     * @param string|null $file : le dossier avec des images
+     * @param string|null $folder_save : ou enregistrer les images modifier (conservent le meme nom).
+     * @param integer $width_max :  largeur max
+     * @param integer $height_max :  hauteur max
+     * @return void ne retourne rien
+     */
+    function modifier_images_folder(?string $file, ?string $folder_save, int $width_max, int $height_max): void {
         $files1 = scandir($file);
 
         $result = array();
@@ -110,16 +166,5 @@ if (!function_exists('modifier_images_folder')) {
     }
 
 }
-
-/*$file = DATA_FOLDER . "images/";
-$folder_save = DATA_FOLDER . "thumb/";
-modifier_images_folder($file, $folder_save, 400, 255);*/
-
-//modifier_images_folder($file, $folder_save, 1894, 921);
-
-
-
-
-
 
 ?>

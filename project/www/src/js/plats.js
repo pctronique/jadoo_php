@@ -25,7 +25,7 @@ deletes_plat.forEach(element => {
 });
 
 /*
-Recuperation d'une image pour afficher dans le general
+Recuperation d'une image pour afficher pour le plat
 event (event) : evenement d'ecoute
 */
 function loadFiles(event) {
@@ -52,23 +52,14 @@ function loadFiles(event) {
     }
 }
 
-function annuler_plat(e) {
-    e.preventDefault();
-    let preview = document.getElementById("img-plat");
-    preview.file = null;
-    preview.src = "./src/imgs/add_picture_235.svg";
-    document.getElementById('categorie').value = "";
-    document.getElementById('name').value = "";
-    document.getElementById('description').value = "";
-}
-
 /*
-ajouter une image dans le general
+ajouter une image pour le plat
 */
 function img_add() {
     document.getElementById('fileToUpload').click();
 }
 
+// en cas de changement de fichier (ici d'image)
 document.getElementById('fileToUpload').addEventListener('change', loadFiles);
+// quand on clique pour changer l'image
 document.getElementById('img-plat').addEventListener('click', img_add);
-//document.getElementById('annuler_plat').addEventListener('click', annuler_plat);

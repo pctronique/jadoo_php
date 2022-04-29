@@ -1,12 +1,17 @@
 <?php
+// recuperation de la classe de session
 include_once dirname(__FILE__) . '/../class/User_Session.php';
 
+// ouvrir une section
 $session_user = new User_Session();
 
+// verifier qu'on est bien connecte
 if($session_user->isConnected()) {
 
+    // recuperation de la classe users connecte a la base de donnee
     include_once dirname(__FILE__) . '/../class/SGBD_Users.php';
 
+    // creation de l'objet de l'utilisateur qui est connecte
     $sgbd_Users = new SGBD_Users();
     $id = 0;
     $name = "";

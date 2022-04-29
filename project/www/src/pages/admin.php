@@ -1,8 +1,11 @@
 <?php
+// recuperation de la classe de session
 include_once dirname(__FILE__) . '/../class/User_Session.php';
 
+// ouvrir une section
 $session_user = new User_Session();
 
+// verifier qu'on est bien connecte
 if($session_user->isConnected()) {
 
     include_once dirname(__FILE__) . '/../class/SGBD_Messages.php';

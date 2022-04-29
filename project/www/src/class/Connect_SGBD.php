@@ -12,7 +12,7 @@ if (!class_exists('Connect_SGBD')) {
     include_once dirname(__FILE__) . '/ConfigIni.php';
 
     /**
-     * Description of Connect_SGBD
+     * Lecteur par defaut de la base de donnee
      *
      * @author pctronique
      * @version 1.1.0
@@ -23,7 +23,7 @@ if (!class_exists('Connect_SGBD')) {
         private $error_message;
 
         /**
-         * 
+         * constructeur par defaut avec connexion a la base
          */
         public function __construct() {
             $this->error_code = 0;

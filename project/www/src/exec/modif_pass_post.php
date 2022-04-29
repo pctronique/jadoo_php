@@ -1,13 +1,17 @@
 <?php 
+// recuperation de la classe de session
 include_once dirname(__FILE__) . '/../class/User_Session.php';
 
+// ouvrir une section
 $session_user = new User_Session();
 
+// verifier qu'on est bien connecte
 if($session_user->isConnected()) {
 
     include_once dirname(__FILE__) . '/../class/SGBD_Users.php';
 
     $sgbd_users = new SGBD_Users();
+    // verifier qu'on est bien passe par un formulaire (ou transmit les informations par post)
     
     if(!empty($_POST) && array_key_exists('pass_old', $_POST) && 
         array_key_exists('pass_new_1', $_POST) && array_key_exists('pass_new_2', $_POST)) {

@@ -1,35 +1,49 @@
 <?php
+// recuperation de la classe de session
 include_once dirname(__FILE__) . '/../class/User_Session.php';
+// recuperer les fonctions
 include_once dirname(__FILE__) . '/../functions/main_function.php';
 
+// ouvrir une section
 $session_user = new User_Session();
 
+// verifier qu'on est bien connecte
 if($session_user->isConnected()) {
 
+    // placer l'id du plat a 0
     $id_plat = 0;
+    // verifier qu'on souhaite afficher un plat pour le modifier
     if(!empty($_GET) && array_key_exists('plat', $_GET)) {
         $id_plat = string_number($_GET["plat"]);
     }
 
+    // recuperation des classes
     include_once dirname(__FILE__) . '/../class/SGBD_Plats.php';
     include_once dirname(__FILE__) . '/../class/SGBD_Users.php';
 
+    // creation de l'objet des classe connectes a la base de donnee
     $sgbd_plats = new SGBD_Plats();
     $sgbd_users = new SGBD_Users();
 
+    // la recherche est vide
     $find = "";
+    // recuperation de la valeur a rechercher dans les plats
     if(!empty($_GET) && array_key_exists('find', $_GET)) {
         $find = $_GET['find'];
     }
 
+    // recuperer toutes les categories
     $all_cate = $sgbd_plats->all_categorie();
+    // recuperation de tout les plats ou les plats recherche
     $all_plats = $sgbd_plats->all_plats($find);
+    // les valeurs par defaut du plat a afficher ou creer
     $src_img = "./src/imgs/add_picture_235.svg";
     $name = "";
     $description = "";
     $categorie = 0;
     $classmsg = "msg_valide";
 
+    // modifier les valeurs des variables du plat a afficher
     if(!empty($id_plat)) {
         $one_plat = $sgbd_plats->one_plats($id_plat);
         if(!empty($one_plat)) {
@@ -42,6 +56,7 @@ if($session_user->isConnected()) {
         }
     }
 
+    // le message en cas d'erreur
     $msg = "";
     $error = false;
     if(!empty($_COOKIE) && array_key_exists("info_plat", $_COOKIE)) {

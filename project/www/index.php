@@ -1,14 +1,17 @@
 <?php
-
+// recuperation de la classe de session
 include_once dirname(__FILE__) . '/src/class/User_Session.php';
 
+// ouvrir une section
 $session_user = new User_Session();
 
+// selectionner la page a afficher
 $pg = "ind";
 if(!empty($_GET) && array_key_exists("pg", $_GET)) {
   $pg = $_GET['pg'];
 }
 
+// travail a effectuer avant affichage ou non d'une page
 if($pg == "admin") {
 } else if($pg == "delete_msg") {
   include_once dirname(__FILE__) . '/src/exec/delete_msg.php';
@@ -32,6 +35,7 @@ if($pg == "admin") {
   include_once dirname(__FILE__) . '/src/exec/accueil_php_post.php';
 }
 
+// les conditions pour afficher la page
 if($pg != "msgpost" && $pg != "conn" && $pg != "deconn" && $pg != "delete_msg" && 
     $pg != "add_plat" && $pg != "find" && $pg != "modif_user" && $pg != "modif_pass" && $pg != "delete_plat") {
 ?>
@@ -133,6 +137,7 @@ if($pg != "msgpost" && $pg != "conn" && $pg != "deconn" && $pg != "delete_msg" &
       include_once dirname(__FILE__) . '/src/pages/accueil.php';
     }
     ?>
+    
     <!-- contient le pied de la page -->
     <footer>
       <div id="footer_contenu">

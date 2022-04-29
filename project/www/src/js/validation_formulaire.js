@@ -1,9 +1,19 @@
+/**
+ * Verifier la validite du texte
+ * @param {*} myval (string) : le texte a verifier
+ * @returns (bool) : la validite du texte
+ */
 function isValidName(myval) {
     let validCharactersRegex = /^[A-Za-z '-]{3,}$/;
  
     return (new RegExp(validCharactersRegex)).test(myval.trim());
 }
 
+/**
+ * Verificateur de la validiter du formulaire
+ * @param {*} e (event) : ecouteur
+ * @returns (bool) : true si il est valide.
+ */
 function validation(e) {
     e.preventDefault();
     let values = {
@@ -66,14 +76,20 @@ function validation(e) {
 
 }
 
+/**
+ * revenir sur la configuration d'origine du input du texte
+ * @param {*} e (event) : ecouteur
+ */
 function styleInputForm(e) {
     e.target.style.borderBottomColor = "rgb(223 223 223)";
 }
 
+// en cas de changement du texte
 document.getElementById("name").addEventListener('input', styleInputForm);
 document.getElementById("first_name").addEventListener('input', styleInputForm);
 document.getElementById("mail").addEventListener('input', styleInputForm);
 document.getElementById("user_text").addEventListener('input', styleInputForm);
 
+// quand on clique sur le bouton du formulaire
 document.getElementById('button_form').addEventListener('click', validation);
 

@@ -1,11 +1,8 @@
 <?php
+// recuperation de la classe plat connecte avec la base de donnee
 include_once dirname(__FILE__) . '/../class/SGBD_Plats.php';
 
-$folder_tmp = "tmp";
-if(defined("TMP_FOLDER")) {
-    $folder_tmp = TMP_FOLDER;
-}
-
+// les donnees pour le message
 $classmsg = "msg_valide";
 
 $message = "";
@@ -16,6 +13,7 @@ $form_prenom = "";
 $form_email = "";
 $form_msg = "";
 
+// en cas de message envoye, recuperer les informations a afficher
 if(!empty($_COOKIE) && array_key_exists("info_message", $_COOKIE)) {
     $obj = json_decode($_COOKIE['info_message']);
     $classmsg = $obj[0];
@@ -30,6 +28,7 @@ if(!empty($_COOKIE) && array_key_exists("info_message", $_COOKIE)) {
     setcookie("info_message", "", time()-3600);
 }
 
+// creation de l'objet plat connecte a la base de donnee
 $sgbd_plats = new SGBD_Plats();
 
 ?>
@@ -65,6 +64,7 @@ $sgbd_plats = new SGBD_Plats();
       <h2>Les nouveautés Jadoo</h2>
       <div id="plats">
         <?php
+        // recuperer et afficher les plats chauds
         $plats = $sgbd_plats->plats_chaud();
         if($sgbd_plats->error_number() == 0) {
           $i = 0;
@@ -97,6 +97,7 @@ $sgbd_plats = new SGBD_Plats();
 
       <div id="makis">
       <?php
+      // recuperer et afficher les makis
         $plats = $sgbd_plats->makis();
         if($sgbd_plats->error_number() == 0) {
         $i = 0;

@@ -36,7 +36,7 @@ if (!class_exists('ConfigIni')) {
         private $sgbd_crypt;
         
         /**
-         * 
+         * constructeur par defaut et recuperation des donnees.
          */
         public function __construct() {
             $this->error_log = new Error_Log();
@@ -74,42 +74,93 @@ if (!class_exists('ConfigIni')) {
             
         }
 
+        /**
+         * Encryptage des informations
+         *
+         * @param string|null $chaine : texte a crypter
+         * @return string|null : texte crypter
+         */
         public function crypt(?string $chaine):?string {
             return $this->sgbd_crypt->encrypt($chaine);
         }
 
+        /**
+         * Valeur numerique en cas d'erreur (0 = pas d'erreur).
+         *
+         * @return integer : Valeur numerique
+         */
         public function getError_code():int {
             return $this->error_code;
         }
 
+        /**
+         * Le message d'erreur
+         *
+         * @return string|null : le message d'erreur
+         */
         public function getError_message():?string {
             return $this->error_message;
         }
         
+        /**
+         * Recupere le type de sgbd (exemple: mysql)
+         *
+         * @return string|null : Le type de sgbd
+         */
         public function getType():?string {
             return $this->type;
         }
         
+        /**
+         * Recupere le serveur
+         *
+         * @return string|null : Le serveur
+         */
         public function getServer():?string {
             return $this->server;
         }
         
+        /**
+         * Recupere le numero du port
+         *
+         * @return integer : le numero du port
+         */
         public function getPort():int {
             return $this->port;
         }
         
+        /**
+         * Recupere le nom de la base
+         *
+         * @return string|null : Le nom de la base
+         */
         public function getName():?string {
             return $this->name;
         }
         
+        /**
+         * Recupere l'utilisateur de la base
+         *
+         * @return string|null : L'utilisateur de la base
+         */
         public function getUser():?string {
             return $this->user;
         }
         
+        /**
+         * Recupere le mot de passe de la base
+         *
+         * @return string|null : Le mot de passe de la base
+         */
         public function getPass():?string {
             return $this->pass;
         }
         
+        /**
+         * Recupere le prefix
+         *
+         * @return string|null : Le prefix
+         */
         public function getPrefix():?string {
             return $this->prefix;
         }

@@ -1,9 +1,11 @@
 <?php 
-
+// recuperation de la classe du message connecte avec la base de donnee
 include_once dirname(__FILE__) . '/../class/SGBD_Messages.php';
 
+// creation de l'objet du message connecte dans la basse de donnee
 $sgbd_message = new SGBD_Messages();
 
+// verifier qu'on est bien passe par un formulaire (ou transmit les informations par post)
 if(!empty($_POST) && array_key_exists('name', $_POST) && array_key_exists('first_name', $_POST) && 
     array_key_exists('mail', $_POST) && array_key_exists('user_text', $_POST)) {
 
