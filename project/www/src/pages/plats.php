@@ -98,9 +98,7 @@ if($session_user->isConnected()) {
             <?php foreach ($all_plats as $key => $value) { ?>
                 <tr>
                     <td id="delete_<?php echo $value->getId(); ?>" class="delete bt_delete">
-                        <a href="http://localhost/?pg=admin&del_plat=<?php echo $value->getId(); ?>">
-                            <img alt="suprimer le plat" title="suprimer le plat" src="./src/imgs/icons8-supprimer-pour-toujours-90.svg" />
-                        </a>
+                        <img id="deleteImg_<?php echo $value->getId(); ?>" alt="suprimer le plat" title="suprimer le plat" src="./src/imgs/icons8-supprimer-pour-toujours-90.svg" />
                     </td>
                     <td id="edit_<?php echo $value->getId(); ?>" class="edit bt_edit">
                         <a href="http://localhost/?pg=admin&plat=<?php echo $value->getId(); ?>">

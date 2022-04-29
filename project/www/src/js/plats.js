@@ -2,13 +2,27 @@ function editPlat(e) {
 
 }
 
-function deletePlat(e) {
-  
-}
-
 function tabEditDelClick() {
 
 }
+
+function deletePlat(e) {
+  let id = e.target.id.split("_")[1];
+  let isExecuted = confirm("Attention vous allez supprimer le plat. 'Ok' pour continuer.");
+  if(isExecuted) {
+      let values = {"id": id};
+      let post = new Post_Save('./?pg=delete_plat');
+      post.setData(values).then(function(response) {
+          alert(response);
+          location.href = "./?pg=admin";
+      });
+  }
+}
+
+let deletes_plat = document.querySelectorAll(".bt_delete");
+deletes_plat.forEach(element => {
+  element.addEventListener('click', deletePlat);
+});
 
 /*
 Recuperation d'une image pour afficher dans le general

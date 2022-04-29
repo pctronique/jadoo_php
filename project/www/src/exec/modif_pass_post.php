@@ -9,21 +9,19 @@ if($session_user->isConnected()) {
 
     $sgbd_users = new SGBD_Users();
     
-    if(!empty($_POST) && array_key_exists('name', $_POST) && 
-        array_key_exists('firstname', $_POST) && array_key_exists('login', $_POST) && 
-        array_key_exists('email', $_POST)) {
+    if(!empty($_POST) && array_key_exists('pass_old', $_POST) && 
+        array_key_exists('pass_new_1', $_POST) && array_key_exists('pass_new_2', $_POST)) {
+            $message_display = ['error' => 0, 'msg' => "Enregistrement réussi."];
+            if($_POST["pass_new_1"] == $_POST["pass_new_2"]) {
+                if(!$sgbd_users->modifPass($_SESSION['id_user'], $_POST['pass_old'], $_POST["pass_new_1"])) {
+                    echo "Une erreur c'est produite lors du changement du mot de passe.";
+                    $message_display = ['error' => 1, 'msg' => "Une erreur c'est produite lors du changement du mot de passe."];
+                }
+            } else {
+                echo "Les mots de passe ne sont pas identique.";
+                $message_display = ['error' => 1, 'msg' => "Les mots de passe ne sont pas identique."];
+            }
 
-        $name_img_plat = "";
-        $message_display = ['error' => 0, 'msg' => "Enregistrement réussi."];
-        if($sgbd_plats->addPlat(string_number($_POST['id_plat']), 
-                $_POST['name'], $name_img_plat, 
-                $_POST['description'], $_POST['categorie'], 
-                string_number($_SESSION['id_user']))) {
-            echo "1";
-        } else {
-            echo "Une erreur c'est produit lors de l'enregistrement du produit.";
-            $message_display = ['error' => 1, 'msg' => "Une erreur c'est produit lors de l'enregistrement du produit."];
-        }
         $json = json_encode($message_display);
         setcookie("info_user", $json, time()+900);
         header('Location: ./?pg=admin&admin=utilisateur');
