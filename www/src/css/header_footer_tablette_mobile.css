@@ -1,0 +1,259 @@
+/************************************/
+/** version entre 1024px et 1207px **/
+/************************************/
+@media screen and (min-width: 1024px) and (max-width: 1207px) {
+  /*----------*/
+  /** footer **/
+  #footer_contenu {
+    width: 90%;
+  }
+}
+
+/**********************/
+/** version < 1024px **/
+/**********************/
+@media screen and (max-width: 1024px) {
+  /*--------*/
+  /** menu **/
+  header nav {
+    /*display: none;*/
+    position: fixed;
+    margin-top: 22px;
+    padding-top: 31px;
+    margin-left: -129px;
+    height: 100%;
+  }
+
+  header nav ul {
+    background-color: white;
+    display: block;
+    margin: 15px;
+    margin-top: -6px;
+    padding-top: 41px;
+    margin-left: 78px;
+    margin-right: -194px;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transform: translate(0%);
+    transition-property: transform, opacity;
+    transition-duration: 0.5s;
+  }
+
+  header nav ul li {
+    display: inline-block;
+    float: none;
+    width: 100%;
+    min-width: 100%;
+    text-align: left;
+    line-height: 25px;
+  }
+
+  header nav ul li a {
+    padding-top: 10px;
+    min-width: 100%;
+  }
+
+  header nav ul li:hover {
+    background-color: rgb(240, 240, 240);
+  }
+
+  #menu_all:hover nav {
+    display: block;
+  }
+
+  #menu_all:hover nav ul {
+    transform: translate(-100%);
+    opacity: 0.9;
+  }
+
+  .submenu {
+    display: block;
+    background-color: unset;
+    margin-top: -30px;
+    margin-left: 177px;
+  }
+
+  /*----------*/
+  /** footer **/
+  #footer_contenu {
+    width: 90%;
+  }
+}
+
+/**********************/
+/** version tablette **/
+/**********************/
+@media screen and (min-width: 655px) and (max-width: 1024px) {
+  /*--------*/
+  /** menu **/
+  #menu_all {
+    padding: unset;
+    padding-right: 28px;
+    margin-top: 3px;
+  }
+
+  header #head_logo_01 {
+    margin-left: 30px;
+  }
+
+  #menu_mobile {
+    display: inline-block;
+    margin-right: -2px;
+  }
+}
+
+/***************************/
+/** version mobile 655px ***/
+/***************************/
+@media screen and (max-width: 655px) {
+  /***********************/
+  /** css all component **/
+  /***********************/
+  /** text **/
+  .souligne-rouge {
+    background-size: contain;
+    min-width: unset;
+    width: 50%;
+  }
+
+  .section_title {
+    margin: unset;
+    padding: unset;
+    width: 100%;
+    text-align: center;
+    font-size: 45px;
+  }
+
+  .section_message {
+    margin: unset;
+    padding: unset;
+    width: auto;
+    padding-top: 30px;
+  }
+
+  /** video **/
+  .video .img_video {
+    margin: unset;
+    padding: unset;
+    width: 100%;
+    height: auto;
+    border-radius: 0px;
+  }
+
+  .video .button_video {
+    width: 100%;
+    height: 100%;
+    margin-top: 0px;
+  }
+
+  .video .button_video_play {
+    margin: auto;
+    margin-left: -55%;
+    margin-top: 17%;
+  }
+
+  /********************/
+  /** Version mobile **/
+  /********************/
+  /*--------*/
+  /** menu **/
+  header nav {
+    margin-left: -129px;
+  }
+
+  #menu_all {
+    padding: unset;
+    padding-right: 28px;
+    margin-top: 3px;
+  }
+
+  #menu_mobile {
+    display: inline-block;
+    margin-right: -2px;
+  }
+
+  header #head_logo_01 {
+    margin-left: 25px;
+  }
+
+  /*----------*/
+  /** footer **/
+  footer {
+    position: relative;
+    overflow: hidden;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-bottom: 179px;
+    text-align: center;
+  }
+
+  .block_footer {
+    width: 100%;
+    padding-top: 39px;
+    text-align: center;
+  }
+
+  #logo_foot_text {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 309px;
+    text-align: center;
+  }
+
+  .foot_center {
+    margin-right: unset;
+    margin-left: 10%;
+  }
+
+  footer ul {
+    text-align: left;
+  }
+
+  #droits_reserves {
+    padding: 33px;
+  }
+
+  #foot_jado {
+    background-color: white;
+    position: absolute;
+    margin: unset;
+    padding: unset;
+    bottom: 0;
+    left: 0;
+    min-width: 100%;
+    padding: 15px;
+    padding-top: 9%;
+  }
+}
+
+/***************************/
+/** version mobile 322px ***/
+/***************************/
+@media screen and (max-width: 322px) {
+  /** video **/
+  .video .button_video_play {
+    margin-left: -60%;
+    margin-top: 15%;
+  }
+
+  /*----------*/
+  /** footer **/
+  .foot_center {
+    min-width: unset;
+    max-width: 322px;
+    margin-right: unset;
+    margin-left: unset;
+  }
+}
+
+/***************************/
+/** version mobile 258px ***/
+/***************************/
+@media screen and (max-width: 258px) {
+  /** video **/
+  .video .button_video_play {
+    margin-left: -68%;
+    margin-top: 10%;
+  }
+}

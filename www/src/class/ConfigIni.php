@@ -1,0 +1,170 @@
+<?php
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+
+if (!class_exists('ConfigIni')) {
+
+    if(file_exists(dirname(__FILE__) . '/../config/config.php')) {
+        include_once dirname(__FILE__) . '/../config/config.php';
+    }
+    include_once dirname(__FILE__) . '/Error_Log.php';
+    include_once dirname(__FILE__) . '/SGBD_crypt.php';
+
+    /**
+     * Pour contenir toutes les configuration de la page.
+     *
+     * @author pctronique
+     */
+    class ConfigIni {
+
+        // les variables de la classe.
+        private $type;
+        private $server;
+        private $port;
+        private $name;
+        private $user;
+        private $pass;
+        private $prefix;
+        private $error_code;
+        private $error_message;
+        private $error_log;
+        private $sgbd_crypt;
+        
+        /**
+         * constructeur par defaut et recuperation des donnees.
+         */
+        public function __construct() {
+            $this->error_log = new Error_Log();
+            $this->error_code = 0;
+            $this->init = array();
+            $this->error_message = "";
+            $this->valide = true;
+            $this->sgbd_crypt = new SGBD_crypt("Lk5Uz3slx3BrAghS1aaW5AYgWZRV0tIX5eI0yPchFz4=", "EZ44mFi3TlAey1b2w4Y7lVDuqO+SRxGXsa7nctnr/JmMrA2vN6EJhrvdVZbxaQs5jpSe34X3ejFK/o9+Y5c83w==");
+            $file_config = "config.ini";
+            if(defined("RACINE_FOLDER_INI")) {
+                $file_config = RACINE_FOLDER_INI . "config.ini";
+                if(!file_exists($file_config)) {
+                    $file_config = RACINE_FOLDER_INI . "config.ini.example";
+                    $this->valide = false;
+                }
+                if(!file_exists($file_config)) {
+                    $this->error_code = 4001000000;
+                    $this->error_message = "Le fichier de configuration n'a pas ete trouve.";
+                    $this->error_log->addError($this->error_code, "plats_chaud", $this->error_message);
+                } else {
+                    $this->init = parse_ini_file($file_config, true);
+                    $this->type = $this->init["SGBD"]['type'];
+                    $this->server = $this->init["SGBD"]['server'];
+                    $this->port = $this->init["SGBD"]['port'];
+                    $this->name = $this->init["SGBD"]['name'];
+                    $this->user = $this->sgbd_crypt->decrypt($this->init["SGBD"]['user']);
+                    $this->pass = $this->sgbd_crypt->decrypt($this->init["SGBD"]['pass']);
+                    $this->prefix = $this->init["SGBD"]['prefix'];
+                }
+            } else {
+                $this->error_code = 4001000010;
+                $this->error_message = "Imposible de trouver le fichier : config.php";
+                $this->error_log->addError($this->error_code, "plats_chaud", $this->error_message);
+            }
+            
+        }
+
+        /**
+         * Encryptage des informations
+         *
+         * @param string|null $chaine : texte a crypter
+         * @return string|null : texte crypter
+         */
+        public function crypt(?string $chaine):?string {
+            return $this->sgbd_crypt->encrypt($chaine);
+        }
+
+        /**
+         * Valeur numerique en cas d'erreur (0 = pas d'erreur).
+         *
+         * @return integer : Valeur numerique
+         */
+        public function getError_code():int {
+            return $this->error_code;
+        }
+
+        /**
+         * Le message d'erreur
+         *
+         * @return string|null : le message d'erreur
+         */
+        public function getError_message():?string {
+            return $this->error_message;
+        }
+        
+        /**
+         * Recupere le type de sgbd (exemple: mysql)
+         *
+         * @return string|null : Le type de sgbd
+         */
+        public function getType():?string {
+            return $this->type;
+        }
+        
+        /**
+         * Recupere le serveur
+         *
+         * @return string|null : Le serveur
+         */
+        public function getServer():?string {
+            return $this->server;
+        }
+        
+        /**
+         * Recupere le numero du port
+         *
+         * @return integer : le numero du port
+         */
+        public function getPort():int {
+            return $this->port;
+        }
+        
+        /**
+         * Recupere le nom de la base
+         *
+         * @return string|null : Le nom de la base
+         */
+        public function getName():?string {
+            return $this->name;
+        }
+        
+        /**
+         * Recupere l'utilisateur de la base
+         *
+         * @return string|null : L'utilisateur de la base
+         */
+        public function getUser():?string {
+            return $this->user;
+        }
+        
+        /**
+         * Recupere le mot de passe de la base
+         *
+         * @return string|null : Le mot de passe de la base
+         */
+        public function getPass():?string {
+            return $this->pass;
+        }
+        
+        /**
+         * Recupere le prefix
+         *
+         * @return string|null : Le prefix
+         */
+        public function getPrefix():?string {
+            return $this->prefix;
+        }
+    }
+}
+
+?>
