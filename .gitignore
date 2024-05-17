@@ -18,4 +18,5 @@
 /www/data/images/maki_tmp_*
 /www/data/images/plat_tmp_*
 /www/errors.log
+/www/.env
 
